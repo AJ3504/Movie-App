@@ -1,0 +1,149 @@
+/* 기본 폰트 세팅 */
+@font-face {
+    font-family: Circular-light;
+    src: url(fonts/CircularSpotifyTxT-Light.ttf);
+}
+@font-face {
+    font-family: Circular-medium;
+    src: url(fonts/CircularSpotifyTxT-Med.ttf);
+}
+@font-face {
+    font-family: Circular-bold;
+    src: url(fonts/FontsFree-Net-Circular-Std-Bold.ttf);
+}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+h1, h2, h3, p, a {
+    font-family: Circular-light, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    color: white;
+}
+/* 기본 폰트 세팅 끝 */
+
+body {
+    background: #242421;
+}
+
+/* 기본 아이콘 세팅 */
+img {
+    width: 32px;
+}
+/* 기본 아이콘 세팅 끝 */
+
+/* MOTHER === 모든것들을 담는 컨테이너 */
+#MOTHER {
+    display: flex;
+    height: 100vh;
+}
+/* MOTHER 끝 */
+
+/* 사이드 바 시작 */
+#side-bar {
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    width: 285px;
+    margin-bottom: 15vh;
+}
+#side-bar a {
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    letter-spacing: 1;
+}
+/* 사이드바 끝 */
+
+/* 로고 담는 컨테이너 시작 */
+#logo-container {
+    display: flex;
+    gap: 10px;
+    height: 100px;
+    align-items: center;
+    padding-left: 20px;
+}
+#logo {
+    width: 48px;
+    height: 48px;
+}
+#logo-h1 {
+    padding-top: 5px;
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+/* 로고 담는 컨테이너 끝 */
+
+/* 사이드바 두 번째 컨테이너 시작 */
+#side-bar-2nd-part {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-top: 40px;
+    padding-left: 35px;
+}
+/* 사이드바 두 번째 컨테이너 끝 */
+
+/* 사이드바 메뉴들 클래스 */
+.side-bar-menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.side-bar-menu {
+    display: flex;
+    gap: 15px;
+}
+.side-bar-menu > a {
+    padding-top: 9px;
+    letter-spacing: 0.5px;
+    font-size: 1rem;
+}
+/* 사이드바 메뉴들 클래스 끝*/
+
+/* 메인 세팅 시작 */
+main {
+    width: 100%;
+    background: #280465;
+}
+/* 메인 세팅 끝 */
+
+/* 섹션 1 시작 */
+#section1 {
+    background: url(imgs/section1.jpeg);
+    background-repeat: no-repeat;
+    background-position: -100px;
+    background-size: cover;
+    height: 400px;
+}
+header {
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+/* nav 왼쪽 부분 */
+#header-div1 ul {
+    height: 100%;
+    display: flex;
+    gap: 25px;
+    padding-left: 20px;
+    align-items: center;
+}
+/* nav 오른쪽 부분 */
+#header-div2 {
+    height: 100%;
+    display: flex;
+    gap: 20px;
+    padding-right: 25px;
+    align-items: center;
+}
+#header-div2 img{
+    width: 32px;
+    height: 32px;
+}
+/* nav 프로필 컨테이너 시작 */
+#nav-profile-container {
+    display: flex;
+    gap: 15px;
+}
+#nav-profile-container h2 {
+    padding: 8px;
+}
+
+/* 섹션 1 끝 */
