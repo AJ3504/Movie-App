@@ -31,22 +31,33 @@ img {
 /* MOTHER === 모든것들을 담는 컨테이너 */
 #MOTHER {
     display: flex;
-    height: 100vh;
+    
 }
 /* MOTHER 끝 */
 
 /* 사이드 바 시작 */
 #side-bar {
-    min-width: 250px;
+    position: fixed;
+    min-width: 250px; max-width: 250px;
     display: flex;
     flex-direction: column;
-    width: 285px;
-    margin-bottom: 15vh;
+    width: 250px;
+    height: 100vh;
+    transition: all 0.2s;
 }
 #side-bar a {
     font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
     letter-spacing: 1;
+    color: #b4b4b4;
 }
+#side-bar img {
+    cursor: pointer;
+}
+#side-bar a:hover {
+    
+    color: #ffffff;
+}
+
 /* 사이드바 끝 */
 
 /* 로고 담는 컨테이너 시작 */
@@ -55,16 +66,19 @@ img {
     gap: 10px;
     height: 100px;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 15px;
 }
 #logo {
     width: 48px;
     height: 48px;
 }
 #logo-h1 {
-    padding-top: 5px;
+    padding-top: 9px;
+    padding-left: 5px;
     font-size: 2rem;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    font-family: Circular-medium, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    cursor: pointer;
 }
 /* 로고 담는 컨테이너 끝 */
 
@@ -75,10 +89,12 @@ img {
     justify-content: space-between;
     height: 100%;
     padding-top: 40px;
-    padding-left: 35px;
+    padding-left: 25px;
 }
 /* 사이드바 두 번째 컨테이너 끝 */
-
+#side-bar-menu-container-3 {
+    padding-bottom: 250px;
+}
 /* 사이드바 메뉴들 클래스 */
 .side-bar-menu-container {
     display: flex;
@@ -100,7 +116,10 @@ img {
 /* 메인 세팅 시작 */
 main {
     width: 100%;
-    background: #280465;
+    background: rgb(40,22,61);
+    background: linear-gradient(45deg, rgba(40,22,61,1) 0%, rgba(40,31,32,1) 55%, rgba(38,36,31,1) 100%);
+    padding-left: 250px;
+    transition: all 0.2s;
 }
 /* 메인 세팅 끝 */
 
@@ -108,7 +127,6 @@ main {
 #section1 {
     background: url(imgs/section1.jpeg);
     background-repeat: no-repeat;
-    background-position: -100px;
     background-size: cover;
     height: 450px;
 }
@@ -122,7 +140,7 @@ header {
     height: 100%;
     display: flex;
     gap: 25px;
-    padding-left: 20px;
+    padding-left: 35px;
     align-items: center;
 }
 /* nav 오른쪽 부분 */
@@ -207,6 +225,100 @@ header {
     border: none;
     cursor: pointer;
 }
-
-
 /* 섹션 1 끝 */
+
+/* 섹션 2 시작*/
+#section2 {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding-top: 30px;
+    padding-left: 35px;
+}
+
+#section2-div1 h2 {
+    font-family: Circular-medium, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 1.4rem;
+    padding-bottom: 30px;
+}
+
+/* CARD */
+.movie-list {
+    display: flex;
+    gap: 50px;
+}
+.movie-card-small {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 260px; min-width: 260px;
+    height: 320px;
+    border-radius: 20px;
+    border: 1px solid #eaeaea;    
+}
+.card-1 {
+    background: url(imgs/temp/bullet_train.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.card-2 {
+    background: url(imgs/temp/moonfall.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.card-3 {
+    background: url(imgs/temp/lost_in_paris.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.card-4 {
+    background: url(imgs/temp/house_of_the_gucci.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.Button-add-to-favorite.small_card {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+.movie-card-info {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 100px;
+    background: #ffffffeb;
+    border-radius: 0 0 15px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding-left: 25px;
+}
+.movie-title {
+    color: #222;
+    font-family: Circular-medium, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 1.15rem;
+}
+
+.movie-card-info p {
+    color: #222;
+    font-family: Circular-light, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 0.9rem;
+}
+.movie-basic-info-year.small_card {
+    padding-right: 10px;
+    border-right: 1.5px #222 solid;
+}
+.movie-basic-info-seasons.small_card {
+    padding-left: 10px;
+    border-left: 1.5px #222 solid;
+}
+/* SECTION 2 DIV 2 */
+#section2-div2 h2 {
+    font-family: Circular-medium, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 1.4rem;
+    padding-bottom: 30px;
+}
+/*  */
