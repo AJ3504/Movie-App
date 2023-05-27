@@ -1,3 +1,5 @@
 reference
 ai
 .git
+.DS_Store
+.gitignore
