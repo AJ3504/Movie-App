@@ -128,7 +128,6 @@ console.log(cardWidth)
 arrows.forEach(arrow => {
   arrow.addEventListener('click', () => {
     const scrollAmount = arrow.classList.contains('next') ? container.offsetWidth : -container.offsetWidth;
-    console.log(container.offsetWidth)
     const scrollLeft = container.scrollLeft;
     const targetScrollLeft = scrollLeft + scrollAmount;
     const duration = 500; // 애니메이션 지속 시간 (밀리초)
@@ -166,7 +165,7 @@ let cardWidth2 = container2.offsetWidth;
 
 arrows2.forEach(arrow => {
   arrow.addEventListener('click', () => {
-    const scrollAmount = arrow.classList.contains('next') ? cardWidth2 : -cardWidth2;
+    const scrollAmount = arrow.classList.contains('next') ? container2.offsetWidth : -container2.offsetWidth;
     const scrollLeft = container2.scrollLeft;
     const targetScrollLeft = scrollLeft + scrollAmount;
     const duration = 500; // 애니메이션 지속 시간 (밀리초)
@@ -179,6 +178,39 @@ arrows2.forEach(arrow => {
       const newScrollLeft = scrollLeft + scrollAmount * easedProgress;
       
       container2.scrollLeft = newScrollLeft;
+
+      if (scrollProgress < 1) {
+        requestAnimationFrame(scrollAnimation);
+      }
+    }
+
+    requestAnimationFrame(scrollAnimation);
+  });
+});
+
+
+//
+
+// SECTION2 DIV3 화살표 함수
+const arrows3 = document.querySelectorAll('.arrow.div3');
+const container3 = document.getElementById('trending-people-cards-container');
+let cardWidth3 = container3.offsetWidth;
+
+arrows3.forEach(arrow => {
+  arrow.addEventListener('click', () => {
+    const scrollAmount = arrow.classList.contains('next') ? container3.offsetWidth : -container3.offsetWidth;
+    const scrollLeft = container3.scrollLeft;
+    const targetScrollLeft = scrollLeft + scrollAmount;
+    const duration = 500; // 애니메이션 지속 시간 (밀리초)
+    const startTime = performance.now();
+
+    function scrollAnimation(currentTime) {
+      const elapsedTime = currentTime - startTime;
+      const scrollProgress = Math.min(elapsedTime / duration, 1);
+      const easedProgress = easeInOutCubic(scrollProgress);
+      const newScrollLeft = scrollLeft + scrollAmount * easedProgress;
+      
+      container3.scrollLeft = newScrollLeft;
 
       if (scrollProgress < 1) {
         requestAnimationFrame(scrollAnimation);
@@ -224,7 +256,4 @@ logo.addEventListener('mouseleave', () => {
 
 
 
-setTimeout(() => {
-    const small_card = document.querySelectorAll('.movie-card-small.card-1')
-    console.log(small_card)   
-}, 0);
+

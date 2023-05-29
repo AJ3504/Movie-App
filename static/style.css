@@ -308,7 +308,7 @@ header {
     gap: 50px;
     padding-left: 35px;
 }
-#section2-div1, #section2-div2 {
+#section2-div1, #section2-div2, #section2-div3 {
     overflow: visible;
     position: relative;
     margin-bottom: 20px;
