@@ -122,7 +122,19 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
 
             // 부모 요소에 추가
             parentElement.appendChild(cardContainer);
-
+            
+            // 카드 호버 이펙트
+            const small_cards = document.querySelectorAll('.movie-card-small.card-1')
+            small_cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.querySelector('.movie-card-info').style.opacity = '1'
+                    card.querySelector('.Button-add-to-favorite.small_card').style.opacity = '1'
+                })
+                card.addEventListener('mouseleave', () => {
+                    card.querySelector('.movie-card-info').style.opacity = '0'
+                    card.querySelector('.Button-add-to-favorite.small_card').style.opacity = '0'
+                })
+            });
         })
     })
     .catch(err => console.error(err));
@@ -208,33 +220,85 @@ function onYouTubeIframeAPIReady() {
 }
 let currentVideoKey = []; // 현재 재생 중인 영상 키를 저장하는 변수
 let currentVideoKeyVAR = -1;
+// random_movies_INDEX 나온 것들 담는 Array
+let tempRandomNumber = [];
 function playRandomMovie() {
-    const random_movies_INDEX = (Math.random()*(POPULAR_MOVIES.length)).toFixed(0);
-    const random_movie_ID = POPULAR_MOVIES[random_movies_INDEX].id;
-    currentVideoKey.push(random_movie_ID);
-    currentVideoKeyVAR++
-    console.log(currentVideoKey)
-    console.log(currentVideoKeyVAR)
-    const movie_title = POPULAR_MOVIES[random_movies_INDEX].title;
-    const movie_year = POPULAR_MOVIES[random_movies_INDEX].year;
-    const movie_genre = POPULAR_MOVIES[random_movies_INDEX].genre[0];
-    
-    const mainMovieInfo = document.getElementById('main_video_info');
-    const mainMovieTitleBox = document.getElementById('section1-movie-title')
-    mainMovieTitleBox.innerText = movie_title
-    mainMovieInfo.querySelector('.movie-basic-info-year').innerText = movie_year;
-    mainMovieInfo.querySelector('.movie-basic-info-genre').innerText = movie_genre;
-    let randomID = currentVideoKey[currentVideoKeyVAR]
+    // POPULAR_MOVIES.length가 0이면 즉, 서버에 문제가 있어서 로딩이 제대로 안되었다면?
+    if (POPULAR_MOVIES.length === 0) {
+        fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('에러발생')
+            }
+            res.json()})
+        .then(response => {
+            response.results.forEach(movie => {
+                // Movie Poster
+                const movie_id = movie.id
+                const movie_title = movie.original_title
+                const movie_poster = `${TMDB_IMAGE_BASE_URL}/w500/${movie.poster_path}`
+                const movie_overview = movie.overview
+                const movie_genre = movie.genre_ids // Array of genre codes
+                const movie_genres = [];
+                movie_genre.forEach(genreCode => {
+                    movie_genres.push(TMDB_MOVIE_GENRES[genreCode])
+                })
+                const movie_year = movie.release_date.slice(0, 4)
+                //
+                // Global Variable 에 넣기
+                POPULAR_MOVIES.push({
+                    'id': movie_id,
+                    'title': movie_title,
+                    'year': movie_year,
+                    'poster': movie_poster,
+                    'overview': movie_overview,
+                    'genre': movie_genres,
+                })
+            })
 
-    fetch(`https://api.themoviedb.org/3/movie/${randomID}/videos`, options)
-        .then(res => res.json())
-        .then(res => {
-            const index = res.results.length;
-            // 유튜브 영상 키
-            const TRAILER_KEY = res.results[index-1].key
-            // youtube api
-            playYouTubeVideo(TRAILER_KEY);
-})
+            })
+        .catch(err => console.log(err))
+    } else {
+        function makeRandomNumber() {
+            const tempNum = (Math.random()*(POPULAR_MOVIES.length)).toFixed(0);
+            let COMPARE = [];
+            COMPARE = tempRandomNumber.map(n => n === tempNum)
+            if (COMPARE.some(el => el === true)) {
+                makeRandomNumber()
+            } else {
+                return tempNum
+            }
+        }
+        const random_movies_INDEX = makeRandomNumber();
+        tempRandomNumber.push(random_movies_INDEX);
+        const random_movie_ID = POPULAR_MOVIES[random_movies_INDEX].id;
+        currentVideoKey.push(random_movie_ID);
+        currentVideoKeyVAR++
+    
+        const movie_title = POPULAR_MOVIES[random_movies_INDEX].title;
+        const movie_year = POPULAR_MOVIES[random_movies_INDEX].year;
+        const movie_genre = POPULAR_MOVIES[random_movies_INDEX].genre[0];
+        const mainMovieInfo = document.getElementById('main_video_info');
+        const mainMovieTitleBox = document.getElementById('section1-movie-title')
+        mainMovieTitleBox.innerText = movie_title
+        mainMovieInfo.querySelector('.movie-basic-info-year').innerText = movie_year;
+        mainMovieInfo.querySelector('.movie-basic-info-genre').innerText = movie_genre;
+        let randomID = currentVideoKey[currentVideoKeyVAR]
+    
+        fetch(`https://api.themoviedb.org/3/movie/${randomID}/videos`, options)
+            .then(res => res.json())
+            .then(res => {
+                const index = res.results.length;
+                // 유튜브 영상 키
+                const TRAILER_KEY = res.results[index-1].key
+                // youtube api
+                playYouTubeVideo(TRAILER_KEY);
+    })
+
+
+
+    }
+
 }
 
 window.addEventListener('load', () => {
@@ -253,8 +317,11 @@ arrows_main.forEach(arrow => {
     arrow.addEventListener('click', () => {
         // next arrow를 클릭하면 //
         if (arrow.classList.contains('next')) {
+            // next 버튼 클릭하면 랜덤 영화 틀기
             if (currentVideoKey.length-1 <= currentVideoKeyVAR) {
                 playRandomMovie()
+
+            // previous 버튼 눌렀다가 next 버튼 누른거면 랜덤 영화가 아니라 전에 틀었던거 다시 보여주기
             } else {
                 currentVideoKeyVAR++
                 const nextMovieID = currentVideoKey[currentVideoKeyVAR]
@@ -268,8 +335,6 @@ arrows_main.forEach(arrow => {
                         movie_genre = nextMovie.genre[0]
                     }
                 })
-                console.log(movie_title, movie_year, movie_genre)
-                console.log(currentVideoKey)
                 const mainMovieInfo = document.getElementById('main_video_info');
                 const mainMovieTitleBox = document.getElementById('section1-movie-title')
                 mainMovieTitleBox.innerText = movie_title
@@ -285,39 +350,42 @@ arrows_main.forEach(arrow => {
                         // youtube api
                         playYouTubeVideo(TRAILER_KEY);
             })
-
             }
+        // 처음 영화에서 previous 버튼 누르면 작동 안되게 하기
+        } else if (currentVideoKeyVAR <= 0) {
+            return
+
+        // previous 버튼 눌렀을 때 전에 보여줬던 영화 다시 틀기
         } else {
-                currentVideoKeyVAR--
-                const previousMovieID = currentVideoKey[currentVideoKeyVAR]
-                let movie_title;
-                let movie_year;
-                let movie_genre;
-                POPULAR_MOVIES.forEach(prevMovie => {
-                    if (prevMovie.id === previousMovieID) {
-                        movie_title = prevMovie.title;
-                        movie_year = prevMovie.year;
-                        movie_genre = prevMovie.genre[0]
-                    }
-                })
-                console.log(movie_title, movie_year, movie_genre)
-                console.log(currentVideoKey)
-               
-                const mainMovieInfo = document.getElementById('main_video_info');
-                const mainMovieTitleBox = document.getElementById('section1-movie-title')
-                mainMovieTitleBox.innerText = movie_title
-                mainMovieInfo.querySelector('.movie-basic-info-year').innerText = movie_year;
-                mainMovieInfo.querySelector('.movie-basic-info-genre').innerText = movie_genre;
-            
-                fetch(`https://api.themoviedb.org/3/movie/${previousMovieID}/videos`, options)
-                    .then(res => res.json())
-                    .then(res => {
-                        const index = res.results.length;
-                        // 유튜브 영상 키
-                        const TRAILER_KEY = res.results[index-1].key
-                        // youtube api
-                        playYouTubeVideo(TRAILER_KEY);
+            currentVideoKeyVAR--
+            const previousMovieID = currentVideoKey[currentVideoKeyVAR]
+            let movie_title;
+            let movie_year;
+            let movie_genre;
+            POPULAR_MOVIES.forEach(prevMovie => {
+                if (prevMovie.id === previousMovieID) {
+                    movie_title = prevMovie.title;
+                    movie_year = prevMovie.year;
+                    movie_genre = prevMovie.genre[0]
+                }
             })
+            
+            const mainMovieInfo = document.getElementById('main_video_info');
+            const mainMovieTitleBox = document.getElementById('section1-movie-title')
+            mainMovieTitleBox.innerText = movie_title
+            mainMovieInfo.querySelector('.movie-basic-info-year').innerText = movie_year;
+            mainMovieInfo.querySelector('.movie-basic-info-genre').innerText = movie_genre;
+        
+            fetch(`https://api.themoviedb.org/3/movie/${previousMovieID}/videos`, options)
+                .then(res => res.json())
+                .then(res => {
+                    const index = res.results.length;
+                    // 유튜브 영상 키
+                    const TRAILER_KEY = res.results[index-1].key
+                    // youtube api
+                    playYouTubeVideo(TRAILER_KEY);
+        })
         }
+            // previous button on main
     })
 })

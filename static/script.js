@@ -63,20 +63,22 @@ sidebarIcons.forEach(el => {
  * 로고 클릭 시 사이드바 나오고 들어가기
  */
 const logo = document.getElementById('logo');
-const logoh1 = document.querySelector('#logo-h1')
-logo.addEventListener('click', (event) => {
+const logoh1 = document.querySelector('#logo-h1');
+const sidebar_toggle = document.getElementById('side-bar-toggle');
+sidebar_toggle.addEventListener('click', (event) => {
     // 사이드바 들어가기
     if (i) {
         i--
         const main = document.querySelector('main');
         const sidebar = document.getElementById('side-bar');
         const aTagsInSidebar = event.target.parentNode.parentNode.querySelectorAll('a')
-        
+        console.log(aTagsInSidebar)
         sidebar.style.cssText = "transform: translateX(-200px);"
-        main.style.cssText = 'transform: translateX(-200px); '
+        
         setTimeout(() => {
+            main.style.cssText = 'transform: translateX(-200px); '
             main.style.cssText = 'padding-left: 80px;'
-            sidebar.style.cssText = 'max-width: 80px; min-width: 80px; background:#111'
+            sidebar.style.cssText = 'max-width: 80px; min-width: 80px; background:#212121'
             // 사이드바 줄어든 만큼 다시 body width 늘리기 70px
             document.querySelector('body').style.width = 'calc(100% - 70px)'
 
@@ -84,20 +86,23 @@ logo.addEventListener('click', (event) => {
                 el.style.cssText = 'display: none;'
             })
             document.getElementById('logo-h1').style.display = 'none'
-        }, 200);
+        }, 0);
+        setTimeout(() => {
+            sidebar_toggle.id = 'side-bar-toggle'
+        }, 400);
         
     } else {
         // 사이드바 나오기
         i++
         const main = document.querySelector('main');
         const sidebar = document.getElementById('side-bar');
-        const logo_aTag = event.target.parentNode.querySelector('h1')
+        const logo_aTag = event.target.parentNode.parentNode.querySelector('h1')
         // event.target.parentNode.parentNode === <div id="side-bar">
         const aTagsInSidebar = event.target.parentNode.parentNode.querySelectorAll('a')
         // sidebar.style.cssText = 'transform: translateX(40px)'
         main.style.cssText = 'padding-left: 250px;'
         setTimeout(() => {
-            sidebar.style.background = '#363633'
+            sidebar.style.background = '#3a4042'
             logo_aTag.style.display = 'block'
             aTagsInSidebar.forEach(a => {
                 a.style.display = 'block'
@@ -105,20 +110,25 @@ logo.addEventListener('click', (event) => {
             sidebar.style.minWidth = '250px';sidebar.style.maxnWidth = '250px';sidebar.style.width = '250px';sidebar.style.position = 'fixed;'
             document.querySelector('body').style.width = 'calc(100% - 250px)'
             }, 200);
+        setTimeout(() => {
+            sidebar_toggle.id = 'side-bar-toggle1'
+        }, 400);
         }
+        
     }
 )
 
 /**
 * 화살표를 클릭하면 콘텐츠가 더 나오는 함수 SECTION 2
 */
-const arrows = document.querySelectorAll('.arrow');
+const arrows = document.querySelectorAll('.arrow.div1');
 const container = document.getElementById('trending-cards-container');
-const cardWidth = container.offsetWidth;
-
+let cardWidth = container.offsetWidth;
+console.log(cardWidth)
 arrows.forEach(arrow => {
   arrow.addEventListener('click', () => {
-    const scrollAmount = arrow.classList.contains('next') ? cardWidth : -cardWidth;
+    const scrollAmount = arrow.classList.contains('next') ? container.offsetWidth : -container.offsetWidth;
+    console.log(container.offsetWidth)
     const scrollLeft = container.scrollLeft;
     const targetScrollLeft = scrollLeft + scrollAmount;
     const duration = 500; // 애니메이션 지속 시간 (밀리초)
@@ -149,6 +159,72 @@ function easeInOutCubic(t) {
 // 화살표를 클릭하면 콘텐츠가 더 나오는 함수 종료
 // 
 
+// SECTION2 DIV2 화살표 함수
+const arrows2 = document.querySelectorAll('.arrow.div2');
+const container2 = document.getElementById('trending-tv-cards-container');
+let cardWidth2 = container2.offsetWidth;
+
+arrows2.forEach(arrow => {
+  arrow.addEventListener('click', () => {
+    const scrollAmount = arrow.classList.contains('next') ? cardWidth2 : -cardWidth2;
+    const scrollLeft = container2.scrollLeft;
+    const targetScrollLeft = scrollLeft + scrollAmount;
+    const duration = 500; // 애니메이션 지속 시간 (밀리초)
+    const startTime = performance.now();
+
+    function scrollAnimation(currentTime) {
+      const elapsedTime = currentTime - startTime;
+      const scrollProgress = Math.min(elapsedTime / duration, 1);
+      const easedProgress = easeInOutCubic(scrollProgress);
+      const newScrollLeft = scrollLeft + scrollAmount * easedProgress;
+      
+      container2.scrollLeft = newScrollLeft;
+
+      if (scrollProgress < 1) {
+        requestAnimationFrame(scrollAnimation);
+      }
+    }
+
+    requestAnimationFrame(scrollAnimation);
+  });
+});
+
+
+//
+
+
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('Button-add-to-favorite')) {
+        const btn = e.target;
+        if (btn.classList.contains('liked')) {
+            btn.classList.remove('liked');
+        } else {
+            btn.classList.add('liked');
+        }
+    }
+});
+
+const section1 = document.getElementById('section1');
+if (section1) {
+    document.getElementById('home').src = 'static/imgs/home_current.png'
+    document.getElementById('home').parentNode.querySelector('a').style.color = '#8ecccc'
+}
+
+logo.addEventListener('mouseenter', () => {
+    logo.src = 'static/imgs/logo_colored.png'
+})
+logo.addEventListener('mouseleave', () => {
+    logo.src = 'static/imgs/logo.png'
+})
+
+
+// 처음에 카드 info는 숨긴다.
 
 
 
+
+
+setTimeout(() => {
+    const small_card = document.querySelectorAll('.movie-card-small.card-1')
+    console.log(small_card)   
+}, 0);

@@ -12,42 +12,45 @@
     <link rel="stylesheet" href="static/style.css" />
     <script src="static/script.js" defer></script>
     <script src="static/movie_list.mjs" type="module" defer></script>
+    <script src="static/tv_list.mjs" type="module" defer></script>
     <script src="https://www.youtube.com/iframe_api" ></script>
     <div id="MOTHER">
         <div id="side-bar">
+            
             <div id="logo-container">
                 <img id="logo" src="static/imgs/logo.png" alt="Logo" />
                 <h1 id="logo-h1">WATCH</h1>
             </div>
             <div id="side-bar-2nd-part">
+                <div id="side-bar-toggle"></div>
                 <div id="side-bar-menu-container-1" class="side-bar-menu-container">
                     <div class="side-bar-menu">
-                        <img src="static/imgs/home.png" alt="Home" /><a href="">Home</a>
+                        <img id="home" src="static/imgs/home.png" alt="Home" /><a href="">Home</a>
                     </div>
                     <div class="side-bar-menu">
-                        <img src="static/imgs/favorite.png" alt="Favorites" /><a href="">Favorites</a>
+                        <img id="favorite" src="static/imgs/favorite.png" alt="Favorites" /><a href="">Favorites</a>
                     </div>
-                    <div class="side-bar-menu">
+                    <div id="trending" class="side-bar-menu">
                         <img src="static/imgs/trending.png" alt="Trending" /><a href="">Trending</a>
                     </div>
                     <div class="side-bar-menu">
-                        <img src="static/imgs/calendar.png" alt="Coming soon" /><a href="">Coming soon</a>
+                        <img id="calendar" src="static/imgs/calendar.png" alt="Coming soon" /><a href="">Coming soon</a>
                     </div>
                 </div>
                 <div id="side-bar-menu-container-2" class="side-bar-menu-container">
                     <div class="side-bar-menu">
-                        <img src="static/imgs/community.png" alt="Community" /><a href="">Community</a>
+                        <img id="community" src="static/imgs/community.png" alt="Community" /><a href="">Community</a>
                     </div>
                     <div class="side-bar-menu">
-                        <img src="static/imgs/social.png" alt="Social" /><a href="">Social</a>
+                        <img id="social" src="static/imgs/social.png" alt="Social" /><a href="">Social</a>
                     </div>
                 </div>
                 <div id="side-bar-menu-container-3" class="side-bar-menu-container">
                     <div class="side-bar-menu">
-                        <img src="static/imgs/settings.png" alt="Settings" /><a href="">Settings</a>
+                        <img id="settings" src="static/imgs/settings.png" alt="Settings" /><a href="">Settings</a>
                     </div>
                     <div class="side-bar-menu">
-                        <img src="static/imgs/logout.png" alt="Log out" /><a href="">Log out</a>
+                        <img id="logout" src="static/imgs/logout.png" alt="Log out" /><a href="">Log out</a>
                     </div>
                 </div>
             </div>
@@ -66,10 +69,10 @@
                     <div id="header-div2">
                         <img src="static/imgs/search.png" alt="" />
                         <!-- search icon -->
-                        <img src="static/imgs/notification.png" alt="notification" />
+                        <img id="notification" src="static/imgs/notification.png" alt="notification" />
                         <!-- notification icon -->
                         <div id="nav-profile-container">
-                            <img src="static/imgs/profile.png" alt="Profile picture" />
+                            <img id="profile" src="static/imgs/profile.png" alt="Profile picture" />
                             <!-- profile picture -->
                             <h2>Kim Hwanhoon</h2>
                         </div>
@@ -94,84 +97,32 @@
             <!--            -->
             <!--  SECTION 2 -->
             <!--            -->
+            <div class="custom-shape-divider-top-1685348814">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                </svg>
+            </div>
             <section id="section2">
                 <div id="section2-div1">
-                    <h2>Trending</h2>
+                    <h2 class="sub-title div-1">Trending Films</h2>
                     <div id="trending-cards-container" class="movie-list"></div>
-                    <div class="arrow prev"></div>
-                    <div class="arrow next"></div>
+                    <div class="arrow div1 prev"></div>
+                    <div class="arrow div1 next"></div>
                 </div>
 
                 <!-- can be cool to have different size for the other cards. -->
-                <div id="section2-div2">
-                    <h2>Continue watching</h2>
-                    <div class="movie-list">
-                        <!-- example card 1 -->
-                        <div class="movie-card-small card-1">
-                            <button class="Button-add-to-favorite small_card"></button>
-                            <div class="movie-card-info small_card">
-                                <h1 class="movie-title small_card">Bullet Train</h1>
-                                <div class="movie-basic-info small_card">
-                                    <p class="movie-basic-info-year small_card">2022</p>
-                                    <p class="movie-basic-info-genre small_card">Action movie</p>
-                                    <p class="movie-basic-info-seasons small_card"></p>
-                                    <!-- if no season, hide -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- example card 2 -->
-                        <div class="movie-card-small card-2">
-                            <button class="Button-add-to-favorite small_card"></button>
-                            <div class="movie-card-info small_card">
-                                <h1 class="movie-title small_card">Moonfall</h1>
-                                <div class="movie-basic-info small_card">
-                                    <p class="movie-basic-info-year small_card">2022</p>
-                                    <p class="movie-basic-info-genre small_card">Sci-fi</p>
-                                    <p class="movie-basic-info-seasons small_card"></p>
-                                    <!-- if no season, hide -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- example card 3 -->
-                        <div class="movie-card-small card-3">
-                            <button class="Button-add-to-favorite small_card"></button>
-                            <div class="movie-card-info small_card">
-                                <h1 class="movie-title small_card">Lost in Paris</h1>
-                                <div class="movie-basic-info small_card">
-                                    <p class="movie-basic-info-year small_card">2023</p>
-                                    <p class="movie-basic-info-genre small_card">Romance</p>
-                                    <p class="movie-basic-info-seasons small_card"></p>
-                                    <!-- if no season, hide -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- example card 4 -->
-                        <div class="movie-card-small card-4">
-                            <button class="Button-add-to-favorite small_card"></button>
-                            <div class="movie-card-info small_card">
-                                <h1 class="movie-title small_card">House of Gucci</h1>
-                                <div class="movie-basic-info small_card">
-                                    <p class="movie-basic-info-year small_card">2021</p>
-                                    <p class="movie-basic-info-genre small_card">Drama</p>
-                                    <p class="movie-basic-info-seasons small_card"></p>
-                                    <!-- if no season, hide -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div id="section2-div2" id="section2-div2">
+                    <h2 class="sub-title div-2">Trending TV Series</h2>
+                    <div id="trending-tv-cards-container" class="movie-list"></div>
+                    <div class="arrow div2 prev"></div>
+                    <div class="arrow div2 next"></div>
+                </div>
+
                 </div>
             </div>
             </section>
         </main>
     </div>
-    <!-- footer 창 -->
-    <footer>
-        <div id="footer-div1">
-            <h3>Welcome to WATCH!</h3>
-            
-        </div>
-        <div id="footer-div2"></div>
-    </footer>
 </body>
 
 </html>

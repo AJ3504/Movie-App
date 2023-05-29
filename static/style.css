@@ -45,8 +45,8 @@ img {
     flex-direction: column;
     width: 250px;
     height: 100vh;
-    transition: all 0.2s;
-    background: #111;
+    transition: all 0.4s;
+    background: #212121;
     /* z-index 2로 둔 이유:
     movie-card-small을 Javascript로 생성할 때, 사이드바를 가리기 때문에
     사이드바 z-index = 2, 그리고 movie-card-small의 z-index는 1로 두었음.
@@ -79,7 +79,14 @@ img {
 #logo {
     width: 48px;
     height: 48px;
+    transition: all 0.6s;
+    transform: scaleX(1);
 }
+#logo:hover {
+    transition: all 0.6s;
+    transform: scale(0.9);
+}
+
 #logo-h1 {
     display: none;
     padding-top: 9px;
@@ -93,6 +100,7 @@ img {
 
 /* 사이드바 두 번째 컨테이너 시작 */
 #side-bar-2nd-part {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -121,23 +129,45 @@ img {
     letter-spacing: 0.5px;
     font-size: 1rem;
 }
+#side-bar-toggle {
+    position: absolute;
+    width: 32px; height: 32px;
+    background-image: url(imgs/sidebar_toggle_expand.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    bottom: 50px; right: 0px;
+    opacity: 0.7;
+    cursor: pointer;
+} 
+#side-bar-toggle1 {
+    position: absolute;
+    width: 32px; height: 32px;
+    background-image: url(imgs/sidebar_toggle.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    bottom: 50px; right: 0px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+#side-bar-toggle:hover, #side-bar-toggle1:hover{
+    opacity: 1;
+    transition: all 0.2s;
+}
 /* 사이드바 메뉴들 클래스 끝*/
 
 /* 메인 세팅 시작 */
 main {
     width: 100%;
-    background: rgb(40,22,61);
-    background: linear-gradient(45deg, rgba(40,22,61,1) 0%, rgba(40,31,32,1) 55%, rgba(38,36,31,1) 100%);
+    background: rgb(142,204,192);
+background: linear-gradient(45deg, rgba(142,204,192,1) 0%, rgba(80,113,123,1) 50%, rgba(58,64,66,1) 100%);
     padding-left: 80px;
-    transition: all 0.2s;
+    transition: all 0.4s;
 }
 /* 메인 세팅 끝 */
 
 /* 섹션 1 시작 */
 #section1 {
-    background: url(imgs/section1.jpeg);
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: rgb(0,0,0);
     height: 600px;
     position: relative;  /* 유튜브 설정*/
     transition: all 0.6s;
@@ -218,21 +248,45 @@ header {
     font-size: 1rem;
     font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
     color: #fff;
-    background: #7000ca;
+    background: #50717b;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    transition: ease-in-out 0.2s;
+    transform: scale(1);
 }
+#Button-watch:hover {
+    transform: scale(1.05);
+    transition: ease-in-out 0.2s;
+}
+
+
 .Button-add-to-favorite {
-    background: url(imgs/like-editted.png);
+    background: url(imgs/like.png);
     width: 32px;height: 32px;
     background-repeat: no-repeat;
     background-size: contain;
     padding: 20px;
     border: none;
     cursor: pointer;
+    transform: scale(1);
+    transition: ease-in-out 0.2s;
 }
+.Button-add-to-favorite.liked {
+    background: url(imgs/liked.png);
+    width: 32px;height: 32px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 20px;
+    border: none;
+    cursor: pointer;
+    transform: scale(1);
+    transition: ease-in-out 0.2s;
+}
+
 .Button-add-to-favorite:hover {
+    transform: scale(1.02);
+    transition: ease-in-out 0.2s;
     background: url(imgs/liked.png);
     width: 32px;height: 32px;
     background-repeat: no-repeat;
@@ -241,6 +295,10 @@ header {
     border: none;
     cursor: pointer;
 }
+.Button-add-to-favorite:active {
+    transform: scale(0.85);
+    transition: ease-in-out 0.15s;
+}
 /* 섹션 1 끝 */
 
 /* 섹션 2 시작*/
@@ -248,17 +306,17 @@ header {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    padding-top: 30px;
     padding-left: 35px;
 }
-#section2-div1 {
+#section2-div1, #section2-div2 {
     overflow: visible;
     position: relative;
+    margin-bottom: 20px;
 }
-#section2-div1 h2 {
+.sub-title {
     font-family: Circular-medium, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
-    font-size: 1.4rem;
-    padding-bottom: 30px;
+    font-size: 1.7rem;
+    padding-bottom: 40px;
 
 }
 
@@ -266,7 +324,7 @@ header {
 .movie-list {
     display: flex;
     overflow: hidden;
-    gap: 50px;
+    gap: 40px;
     position: relative;
     transition: ease-in-out 0.3s;
 }
@@ -274,51 +332,43 @@ header {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 260px; min-width: 260px;
-    height: 320px;
+    width: 270px; min-width: 270px;
+    height: 330px;
     border-radius: 20px;
-    border: 1px solid #eaeaea;    
-}
-.card-1 {
-    background: url(imgs/temp/bullet_train.png);
-    background-repeat: no-repeat;
     background-size: cover;
-}
-.card-2 {
-    background: url(imgs/temp/moonfall.png);
     background-repeat: no-repeat;
-    background-size: cover;
+    transform: scale(1);
+    transition: ease-in-out 0.3s;
 }
-.card-3 {
-    background: url(imgs/temp/lost_in_paris.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.card-4 {
-    background: url(imgs/temp/house_of_the_gucci.png);
-    background-repeat: no-repeat;
-    background-size: cover;
+.movie-card-small:hover {
+    transform: scale(0.98);
+    transition: ease-in-out 0.3s;
 }
 .Button-add-to-favorite.small_card {
+    opacity: 0;
     position: absolute;
     top: 10px;
     right: 15px;
 }
 
 .movie-card-info {
+    display: flex;
     position: absolute;
     bottom: 0;
     right: 0;
     left: 0;
     height: 100px;
-    background: #ffffffeb;
+    background: #ffffffc7;
     border-radius: 0 0 15px 15px;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 20px;
     padding-left: 25px;
+    opacity: 0;
+    transform: scale(1);
+    transition: ease-in-out 0.3s;
 }
+
 .movie-title {
     color: #222;
     font-family: Circular-medium, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
@@ -339,9 +389,7 @@ header {
     border-left: 1.5px #222 solid;
 }
 /* SECTION 2 DIV 2 */
-#section2-div2 h2 {
-    font-family: Circular-medium, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
-    font-size: 1.4rem;
+.sub-title.div-2 {
     padding-bottom: 30px;
 }
 /*  */
