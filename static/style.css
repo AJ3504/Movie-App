@@ -20,6 +20,8 @@ h1, h2, h3, p, a {
 
 body {
     background: #242421;
+    width: calc(100% - 250px);
+    transition: ease-in-out 0.25s;
 }
 
 /* 기본 아이콘 세팅 */
@@ -38,12 +40,18 @@ img {
 /* 사이드 바 시작 */
 #side-bar {
     position: fixed;
-    min-width: 250px; max-width: 250px;
+    min-width: 80px; max-width: 80px;
     display: flex;
     flex-direction: column;
     width: 250px;
     height: 100vh;
     transition: all 0.2s;
+    background: #111;
+    /* z-index 2로 둔 이유:
+    movie-card-small을 Javascript로 생성할 때, 사이드바를 가리기 때문에
+    사이드바 z-index = 2, 그리고 movie-card-small의 z-index는 1로 두었음.
+    */
+    z-index: 2;
 }
 #side-bar a {
     font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
@@ -73,6 +81,7 @@ img {
     height: 48px;
 }
 #logo-h1 {
+    display: none;
     padding-top: 9px;
     padding-left: 5px;
     font-size: 2rem;
@@ -103,6 +112,7 @@ img {
 }
 
 .side-bar-menu {
+    min-width: 150px;
     display: flex;
     gap: 15px;
 }
@@ -118,7 +128,7 @@ main {
     width: 100%;
     background: rgb(40,22,61);
     background: linear-gradient(45deg, rgba(40,22,61,1) 0%, rgba(40,31,32,1) 55%, rgba(38,36,31,1) 100%);
-    padding-left: 250px;
+    padding-left: 80px;
     transition: all 0.2s;
 }
 /* 메인 세팅 끝 */
@@ -128,12 +138,16 @@ main {
     background: url(imgs/section1.jpeg);
     background-repeat: no-repeat;
     background-size: cover;
-    height: 450px;
+    height: 600px;
+    position: relative;  /* 유튜브 설정*/
+    transition: all 0.6s;
 }
 header {
     height: 100px;
     display: flex;
     justify-content: space-between;
+    position: relative; /* 유튜브 설정 이거 두개를 해야 영상 위에서 존재한다. */
+    z-index: 10;        /* 유튜브 설정 이거 두개를 해야 영상 위에서 존재한다. */
 }
 /* nav 왼쪽 부분 */
 #header-div1 ul {
@@ -169,7 +183,9 @@ header {
     flex-direction: column;
     padding-left: 35px;
     gap: 30px;
-    padding-top: 150px;
+    padding-top: 290px;
+    position: relative; /* 유튜브 설정 이거 두개를 해야 영상 위에서 존재한다. */
+    z-index: 10;        /* 유튜브 설정 이거 두개를 해야 영상 위에서 존재한다. */
 }
 #section1-movie-title {
     font-size: 2.5rem;
@@ -235,17 +251,24 @@ header {
     padding-top: 30px;
     padding-left: 35px;
 }
-
+#section2-div1 {
+    overflow: visible;
+    position: relative;
+}
 #section2-div1 h2 {
     font-family: Circular-medium, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
     font-size: 1.4rem;
     padding-bottom: 30px;
+
 }
 
 /* CARD */
 .movie-list {
     display: flex;
+    overflow: hidden;
     gap: 50px;
+    position: relative;
+    transition: ease-in-out 0.3s;
 }
 .movie-card-small {
     position: relative;
@@ -320,5 +343,91 @@ header {
     font-family: Circular-medium, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
     font-size: 1.4rem;
     padding-bottom: 30px;
+}
+/*  */
+/* SECTION 1 ARROW */
+.arrow-main {
+    position: absolute;
+    top: calc(40%);
+    width: 30px;
+    height: 45px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+.arrow-main:hover {
+    opacity: 1;
+}
+.arrow-main.prev {
+    left: 0px;
+}
+/* SECTION 2 ARROW */
+.arrow {
+    position: absolute;
+    top: calc(50%);
+    width: 30px;
+    height: 55px;
+    border-radius: 8px;
+    opacity: 0.8;
+    z-index: 2;
+    cursor: pointer;
+  }
+  
+.prev {
+    background: url(imgs/arrow_prev.png);
+    left: -30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    }
+
+.next {
+    background: url(imgs/arrow_next.png);
+    right: 0px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    }
+
+.arrow:hover {
+    opacity: 1;
+    }
+/*  */
+
+/* 유튜브 */
+#player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* 동영상을 다른 요소들보다 아래에 표시 */   
+    pointer-events: none;   
+  }
+
+/* MUTE BUTTON */
+#main-mute {
+    position: absolute;
+    right: 30px;
+    background: url(imgs/mute.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+#main-mute1 {
+    position: absolute;
+    right: 30px;
+    background: url(imgs/unmute.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
 }
 /*  */

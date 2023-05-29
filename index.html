@@ -5,13 +5,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie App</title>
+</head>
+<body>
     <link rel="stylesheet" href="static/reset.css" />
     <link rel="stylesheet" href="static/style.css" />
     <script src="static/script.js" defer></script>
-    <title>Movie App</title>
-</head>
-
-<body>
+    <script src="static/movie_list.mjs" type="module" defer></script>
+    <script src="https://www.youtube.com/iframe_api" ></script>
     <div id="MOTHER">
         <div id="side-bar">
             <div id="logo-container">
@@ -52,10 +53,9 @@
             </div>
         </div>
         <main>
+            
             <section id="section1">
-                <!-- flex column relative(section1-div에 relative하면 여기에 안 해도 되는지 확인해보기) -->
                 <header>
-                    <!-- flex space-between -->
                     <div id="header-div1">
                         <ul>
                             <li><a href="">Movies</a></li>
@@ -76,76 +76,30 @@
                     </div>
                 </header>
                 <div id="section1-div">
+                    <div class="arrow-main prev"></div>
+                    <div class="arrow-main next"></div>
                     <!-- section1 메세지 참고 -->
-                    <h2 id="section1-movie-title">Insider</h2>
-                    <div class="movie-basic-info">
-                        <p class="movie-basic-info-year">2022</p>
-                        <p class="movie-basic-info-genre">Comedy horror</p>
-                        <p class="movie-basic-info-seasons">2 seasons</p>
+                    <h2 id="section1-movie-title"></h2>
+                    <div id="main_video_info" class="movie-basic-info">
+                        <p class="movie-basic-info-year"></p>
+                        <p class="movie-basic-info-genre"></p>
                     </div>
                     <div id="section1-div-comp-3">
                         <button class="Button-watch" id="Button-watch">Watch now</button>
                         <button class="Button-add-to-favorite"></button>
+                        <div id="main-mute"></div>
                     </div>
                 </div>
             </section>
+            <!--            -->
+            <!--  SECTION 2 -->
+            <!--            -->
             <section id="section2">
                 <div id="section2-div1">
                     <h2>Trending</h2>
-                    <div class="movie-list">
-                        <!-- example card 1 -->
-                        <div class="movie-card-small card-1">
-                            <button class="Button-add-to-favorite small_card"></button>
-                            <div class="movie-card-info small_card">
-                                <h1 class="movie-title small_card">Bullet Train</h1>
-                                <div class="movie-basic-info small_card">
-                                    <p class="movie-basic-info-year small_card">2022</p>
-                                    <p class="movie-basic-info-genre small_card">Action movie</p>
-                                    <p class="movie-basic-info-seasons small_card"></p>
-                                    <!-- if no season, hide -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- example card 2 -->
-                        <div class="movie-card-small card-2">
-                            <button class="Button-add-to-favorite small_card"></button>
-                            <div class="movie-card-info small_card">
-                                <h1 class="movie-title small_card">Moonfall</h1>
-                                <div class="movie-basic-info small_card">
-                                    <p class="movie-basic-info-year small_card">2022</p>
-                                    <p class="movie-basic-info-genre small_card">Sci-fi</p>
-                                    <p class="movie-basic-info-seasons small_card"></p>
-                                    <!-- if no season, hide -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- example card 3 -->
-                        <div class="movie-card-small card-3">
-                            <button class="Button-add-to-favorite small_card"></button>
-                            <div class="movie-card-info small_card">
-                                <h1 class="movie-title small_card">Lost in Paris</h1>
-                                <div class="movie-basic-info small_card">
-                                    <p class="movie-basic-info-year small_card">2023</p>
-                                    <p class="movie-basic-info-genre small_card">Romance</p>
-                                    <p class="movie-basic-info-seasons small_card"></p>
-                                    <!-- if no season, hide -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- example card 4 -->
-                        <div class="movie-card-small card-4">
-                            <button class="Button-add-to-favorite small_card"></button>
-                            <div class="movie-card-info small_card">
-                                <h1 class="movie-title small_card">House of Gucci</h1>
-                                <div class="movie-basic-info small_card">
-                                    <p class="movie-basic-info-year small_card">2021</p>
-                                    <p class="movie-basic-info-genre small_card">Drama</p>
-                                    <p class="movie-basic-info-seasons small_card"></p>
-                                    <!-- if no season, hide -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="trending-cards-container" class="movie-list"></div>
+                    <div class="arrow prev"></div>
+                    <div class="arrow next"></div>
                 </div>
 
                 <!-- can be cool to have different size for the other cards. -->
@@ -210,6 +164,14 @@
             </section>
         </main>
     </div>
+    <!-- footer 창 -->
+    <footer>
+        <div id="footer-div1">
+            <h3>Welcome to WATCH!</h3>
+            
+        </div>
+        <div id="footer-div2"></div>
+    </footer>
 </body>
 
 </html>
