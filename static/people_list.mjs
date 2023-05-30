@@ -102,5 +102,4 @@ fetch('https://api.themoviedb.org/3/trending/person/week?language=en-US', option
             });
 
         });
-        console.log(PEOPLE_INFO)
     })
