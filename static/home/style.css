@@ -1,20 +1,21 @@
 /* 기본 폰트 세팅 */
 @font-face {
     font-family: Circular-light;
-    src: url(fonts/CircularSpotifyTxT-Light.ttf);
+    src: url(../fonts/CircularSpotifyTxT-Light.ttf);
 }
 @font-face {
     font-family: Circular-medium;
-    src: url(fonts/CircularSpotifyTxT-Med.ttf);
+    src: url(../fonts/CircularSpotifyTxT-Med.ttf);
 }
 @font-face {
     font-family: Circular-bold;
-    src: url(fonts/FontsFree-Net-Circular-Std-Bold.ttf);
+    src: url(../fonts/FontsFree-Net-Circular-Std-Bold.ttf);
 }
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 h1, h2, h3, p, a {
     font-family: Circular-light, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
     color: white;
+    cursor: default;
 }
 /* 기본 폰트 세팅 끝 */
 a:hover {
@@ -36,7 +37,7 @@ img {
 /* MOTHER === 모든것들을 담는 컨테이너 */
 #MOTHER {
     display: flex;
-    
+    transition: ease-in-out 1s;
 }
 /* MOTHER 끝 */
 
@@ -135,7 +136,7 @@ img {
 #side-bar-toggle {
     position: absolute;
     width: 32px; height: 32px;
-    background-image: url(imgs/sidebar_toggle_expand.png);
+    background-image: url(../imgs/sidebar_toggle_expand.png);
     background-repeat: no-repeat;
     background-size: cover;
     bottom: 50px; right: 0px;
@@ -145,7 +146,7 @@ img {
 #side-bar-toggle1 {
     position: absolute;
     width: 32px; height: 32px;
-    background-image: url(imgs/sidebar_toggle.png);
+    background-image: url(../imgs/sidebar_toggle.png);
     background-repeat: no-repeat;
     background-size: cover;
     bottom: 50px; right: 0px;
@@ -176,6 +177,7 @@ background: linear-gradient(45deg, rgba(33,33,33,1) 0%, rgba(58,64,66,1) 35%, rg
     height: 600px;
     position: relative;  /* 유튜브 설정*/
     transition: all 0.6s;
+    overflow: hidden;
 }
 header {
     height: 100px;
@@ -186,6 +188,7 @@ header {
 }
 .header_links {
     transition: all 0.3s;
+    cursor: pointer;
 }
 
 .header_links:hover{
@@ -253,10 +256,12 @@ header {
     font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
     letter-spacing: 1px;
     font-weight: 600;
+    cursor: default;
 }
 .movie-basic-info {
     display: flex;
     gap: 10px;
+    cursor: default;
 }
 .movie-basic-info p {
     font-size: 0.9rem;
@@ -285,15 +290,22 @@ header {
     cursor: pointer;
     transition: ease-in-out 0.2s;
     transform: scale(1);
+    -webkit-box-shadow: 0px 0px 300px 0px rgba(80,113,123,1);
+    -moz-box-shadow: 0px 0px 300px 0px rgba(80,113,123,1);
+    box-shadow: 0px 0px 300px 0px rgba(80,113,123,1);
 }
 #Button-watch:hover {
     transform: scale(1.05);
     transition: ease-in-out 0.2s;
 }
+#Button-watch:active {
+    transform: scale(0.95);
+    transition: ease-in-out 0.2s;
+}
 
 
 .Button-add-to-favorite {
-    background: url(imgs/like.png);
+    background: url(../imgs/like.png);
     width: 32px;height: 32px;
     background-repeat: no-repeat;
     background-size: contain;
@@ -304,7 +316,7 @@ header {
     transition: ease-in-out 0.2s;
 }
 .Button-add-to-favorite.liked {
-    background: url(imgs/liked.png);
+    background: url(../imgs/liked.png);
     width: 32px;height: 32px;
     background-repeat: no-repeat;
     background-size: contain;
@@ -318,7 +330,7 @@ header {
 .Button-add-to-favorite:hover {
     transform: scale(1.02);
     transition: ease-in-out 0.2s;
-    background: url(imgs/liked.png);
+    background: url(../imgs/liked.png);
     width: 32px;height: 32px;
     background-repeat: no-repeat;
     background-size: contain;
@@ -363,16 +375,19 @@ header {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 270px; min-width: 270px;
-    height: 330px;
+    width: 280px; min-width: 280px;
+    height: 380px;
     border-radius: 20px;
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: bottom;
     transform: scale(1);
     transition: ease-in-out 0.3s;
+    cursor: pointer;
+
 }
 .movie-card-small:hover {
-    transform: scale(0.98);
+    transform: scale(0.96);
     transition: ease-in-out 0.3s;
 }
 .Button-add-to-favorite.small_card {
@@ -452,14 +467,14 @@ header {
   }
   
 .prev {
-    background: url(imgs/arrow_prev.png);
+    background: url(../imgs/arrow_prev.png);
     left: -30px;
     background-size: contain;
     background-repeat: no-repeat;
     }
 
 .next {
-    background: url(imgs/arrow_next.png);
+    background: url(../imgs/arrow_next.png);
     right: 0px;
     background-size: contain;
     background-repeat: no-repeat;
@@ -473,19 +488,36 @@ header {
 /* 유튜브 */
 #player {
     position: absolute;
-    top: 0;
+    top: -10px;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 1; /* 동영상을 다른 요소들보다 아래에 표시 */   
     pointer-events: none;   
-  }
+    /* transform: scaleX(1.05) scaleY(1.2); */
+    transform: scale(1.35);
+    transition: ease-in-out 0.2s;
+
+}
+
+#modal-player {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* 동영상을 다른 요소들보다 아래에 표시 */   
+    pointer-events: none;
+    border-radius: 20px 20px 0 0;
+    transition: ease-in-out 0.8s;
+    transform: scale(1.4);
+}
 
 /* MUTE BUTTON */
 #main-mute {
     position: absolute;
     right: 30px;
-    background: url(imgs/mute.png);
+    background: url(../imgs/mute.png);
     background-size: contain;
     background-repeat: no-repeat;
     width: 32px;
@@ -494,12 +526,19 @@ header {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 5px;
+    transition: ease-in 0.2s;
+    opacity: 0.7;
 }
+#main-mute:hover {
+    opacity: 1;
+    transition: ease-in 0.2s;
+}
+
 
 #main-mute1 {
     position: absolute;
     right: 30px;
-    background: url(imgs/unmute.png);
+    background: url(../imgs/unmute.png);
     background-size: contain;
     background-repeat: no-repeat;
     width: 32px;
@@ -508,5 +547,297 @@ header {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 5px;
+    transition: ease-in 0.2s;
+    opacity: 0.7;
+}
+#main-mute1:hover {
+    opacity: 1;
+    transition: ease-in 0.2s;
 }
 /*  */
+
+/* 모달 */
+/* */
+/* */
+/* */
+/* */
+/* */
+#movie-info-container {
+    opacity: 0;
+    z-index: -10;
+    background: #000;
+    position: fixed;
+    width: 800px;
+    height: 600px;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    transition: ease-in-out 0.6s;
+    overflow: hidden;
+}
+#movie-info-container:hover {
+    transition: ease-in-out 0.4s;
+    position: fixed;
+}
+
+#modal-player-div {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 15px;
+    padding-left: 20px;
+    height: 400px;
+    border-radius: 20px 20px 0 0;
+    
+}
+
+#modal-movie-title {
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    cursor: default;
+}
+
+#modal-like {
+    margin-left: 10px;
+    padding: 18px;
+}
+
+#modal-div-comp-3 {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+#Button-modal-watch {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    color: #fff;
+    background: #50717b;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: ease-in-out 0.2s;
+    transform: scale(1);
+    -webkit-box-shadow: 0px 0px 300px 0px rgba(80,113,123,1);
+    -moz-box-shadow: 0px 0px 300px 0px rgba(80,113,123,1);
+    box-shadow: 0px 0px 300px 0px rgba(80,113,123,1);
+}
+#Button-modal-watch:hover {
+    transition: ease-in-out 0.2s;
+    transform: scale(1.05);
+}
+#Button-modal-watch:active {
+    transition: ease-in-out 0.2s;
+    transform: scale(0.95);
+}
+
+.arrow-modal {
+    position: absolute;
+}
+
+#movie-info-text-container {
+    display: flex;
+    position: relative;
+    background: #fff;
+    height: 200px;
+    border-radius: 0 0 20px 20px;
+}
+
+#modal_video_info {
+    font-size: 1rem;
+}
+
+/* RATE */
+#modal-text-right-div1 {
+    display: flex;
+    gap: 20px;
+
+}
+
+#modal-text-right-div1 h1 {
+    color: #222;
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 0.95rem;
+    padding-left: 10px;
+    padding-top: 18px;
+    font-weight: 600;
+}
+
+#modal-text-left {
+    position: relative;
+    width: 70%; height: 100%;
+    overflow: scroll;
+    border-right: 2px dashed #0c0c0c;
+}
+
+#modal-text-left h2{
+    color: #222;
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 1.2rem;
+    padding-left: 18px;
+    padding-top: 18px;
+    font-weight: 600;
+}
+#modal-text-left p{
+    color: #222;
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 1rem;
+    padding: 20px;
+    line-height: 1.4;
+}
+
+#modal-close {
+    background: url(../imgs/close.png);
+    width: 32px; height: 32px;
+    position: absolute;
+    top: 5px; right: 5px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    opacity: 0.6;
+    transform: translate(-10%, -10%);
+    transition: ease-in-out 0.2s;
+}
+#modal-close:hover {
+    width: 36px; height: 36px;
+    top: 10px; right: 10px;
+    opacity: 1;
+    transform: scale(1.1);
+    transition: ease-in-out 0.2s;
+}
+
+#modal-mute {
+    position: absolute;
+    right: 30px;
+    background: url(../imgs/mute.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+    z-index: 10;
+    opacity: 0.7;
+    transition: ease-in 0.2s;
+}
+#modal-mute:hover {
+    opacity: 1;
+    transition: ease-in 0.2s;
+}
+
+
+#modal-mute1 {
+    position: absolute;
+    right: 30px;
+    background: url(../imgs/unmute.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+    z-index: 10;
+    opacity: 0.7;
+    transition: ease-in 0.2s;
+}
+#modal-mute1:hover {
+    opacity: 1;
+    transition: ease-in 0.2s;
+}
+
+#modal_rate_container {
+    display: flex;
+    gap: 5px;
+    padding-top: 10px;
+    padding-right: 15px;
+}
+
+#modal_rate_container img{
+    width: 28px; height: 28px;
+    border: none;
+}
+
+
+.progress-bar {
+    width: 125px;
+    height: 20px;
+    background-color: #fafafa;
+    border-radius: 4px;
+    border: 1px dotted #bfbfbf;
+    overflow: hidden;
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+  
+.progress {
+width: 40%; /* 진행 상태에 따라 조정 가능 */
+height: 100%;
+background-color: #6b9cfe;
+}
+  
+#modal-text-right {
+    display: flex;
+    flex-direction: column;
+}
+#progress-bar-container h3 {
+    color: #222;
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 0.95rem;
+    padding-top: 18px;
+    padding-left: 10px;
+    font-weight: 600;
+}
+#progress-bar-container {
+    display: flex;
+}
+
+#release-date-container h3 {
+    color: #222;
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 0.95rem;
+    padding-top: 10px;
+    padding-left: 10px;
+    font-weight: 600;
+}
+
+#release-date-container p {
+    color: #333;
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 0.95rem;
+    padding-top: 10px;
+    padding-left: 15px;
+}
+
+#release-date-container {
+    display: flex;
+}
+
+#genres-container {
+    display: flex;
+}
+
+#genres-container h3 {
+    color: #222;
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 0.95rem;
+    padding-top: 22px;
+    padding-left: 10px;
+    font-weight: 600;
+}
+
+#genres-container p {
+    color: #333;
+    font-family: Montserrat, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 0.95rem;
+    padding-top: 18px;
+    padding-left: 15px;
+    line-height: 1.5;
+}

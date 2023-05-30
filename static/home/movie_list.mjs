@@ -3,7 +3,7 @@
  */
 const POPULAR_MOVIES = [];
 let FETCH_RESULT;
-
+export default POPULAR_MOVIES;
 /**
  * TMDB 기본 키와 URL 작업
  */
@@ -59,6 +59,7 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
     })
     .then(data => {
         FETCH_RESULT = data.results
+        console.log(data.results)
         data.results.forEach(movie => {
             // Movie Poster
             const movie_id = movie.id
@@ -80,6 +81,9 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
                 'poster': movie_poster,
                 'overview': movie_overview,
                 'genre': movie_genres,
+                'rate': movie.vote_average,
+                'popularity': movie.popularity,
+                'release date': movie.release_date
             })
 
             //
@@ -95,6 +99,8 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
             // example card 1
             var cardContainer = document.createElement("div");
             cardContainer.classList.add("movie-card-small", "card-1");
+            cardContainer.setAttribute("_id", movie_id)
+            cardContainer.attributes.setNamedItem
             cardContainer.style.backgroundImage = `url('${movie_poster}')`
             cardContainer.style.zIndex = '1'
 
@@ -141,19 +147,125 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
                 })
             });
         })
+        
+    })
+    .catch(err => {
+        console.log('movie fetch error caught')
+        console.error(err)
+    });
+// page 2
+fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=2', options)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('MOVIE FETCH FAILURE')
+        } return response.json()
+    })
+    .then(data => {
+        FETCH_RESULT = data.results
+        data.results.forEach(movie => {
+            // Movie Poster
+            const movie_id = movie.id
+            const movie_title = movie.original_title
+            const movie_poster = `${TMDB_IMAGE_BASE_URL}/w500/${movie.poster_path}`
+            const movie_overview = movie.overview
+            const movie_genre = movie.genre_ids // Array of genre codes
+            const movie_genres = [];
+            movie_genre.forEach(genreCode => {
+                movie_genres.push(TMDB_MOVIE_GENRES[genreCode])
+            })
+            const movie_year = movie.release_date.slice(0, 4)
+            //
+            // Global Variable 에 넣기
+            POPULAR_MOVIES.push({
+                'id': movie_id,
+                'title': movie_title,
+                'year': movie_year,
+                'poster': movie_poster,
+                'overview': movie_overview,
+                'genre': movie_genres,
+                'rate': movie.vote_average,
+                'popularity': movie.popularity,
+                'release date': movie.release_date
+            })
+
+            //
+            //
+
+
+            // 카드만들기
+            //
+            //
+            // 부모 요소 가져오기
+            var parentElement = document.getElementById("trending-cards-container");
+
+            // example card 1
+            var cardContainer = document.createElement("div");
+            cardContainer.classList.add("movie-card-small", "card-1");
+            cardContainer.setAttribute("_id", movie_id)
+            cardContainer.style.backgroundImage = `url('${movie_poster}')`
+            cardContainer.style.zIndex = '1'
+
+            var button = document.createElement("button");
+            button.classList.add("Button-add-to-favorite", "small_card");
+            cardContainer.appendChild(button);
+
+            var infoContainer = document.createElement("div");
+            infoContainer.classList.add("movie-card-info", "small_card");
+            cardContainer.appendChild(infoContainer);
+
+            var title = document.createElement("h1");
+            title.classList.add("movie-title", "small_card");
+            title.textContent = movie_title;
+            infoContainer.appendChild(title);
+
+            var basicInfoContainer = document.createElement("div");
+            basicInfoContainer.classList.add("movie-basic-info", "small_card");
+            infoContainer.appendChild(basicInfoContainer);
+
+            var year = document.createElement("p");
+            year.classList.add("movie-basic-info-year", "small_card");
+            year.textContent = movie_year;
+            basicInfoContainer.appendChild(year);
+
+            var genre = document.createElement("p");
+            genre.classList.add("movie-basic-info-genre", "small_card");
+            genre.textContent = movie_genres[0];
+            basicInfoContainer.appendChild(genre);
+
+            // 부모 요소에 추가
+            parentElement.appendChild(cardContainer);
+            
+            // 카드 호버 이펙트
+            const small_cards = document.querySelectorAll('.movie-card-small.card-1')
+            small_cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.querySelector('.movie-card-info').style.opacity = '1'
+                    card.querySelector('.Button-add-to-favorite.small_card').style.opacity = '1'
+                })
+                card.addEventListener('mouseleave', () => {
+                    card.querySelector('.movie-card-info').style.opacity = '0'
+                    card.querySelector('.Button-add-to-favorite.small_card').style.opacity = '0'
+                })
+            });
+            
+        })
+        
     })
     .catch(err => {
         console.log('movie fetch error caught')
         console.error(err)
     });
 
-// /vZloFAK7NmvMGKE7VkF5UHaz0I.jpg
-// 이미지 BASE URL "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
+
+
+
+
+
+
+
+
 
 // 동영상 가져오기 해보기
-
-
-
 let player;
 function playYouTubeVideo(videoKey) {
     if (player) {
@@ -223,8 +335,30 @@ function playYouTubeVideo(videoKey) {
 
 // 유튜브 API를 초기화합니다.
 function onYouTubeIframeAPIReady() {
-    // API 초기화 코드는 여기에 넣을 필요가 없습니다.
-    // 필요한 경우 다른 위치에 넣지 마세요.
+    // API 초기화 코드
+    console.log(player)
+    player = new YT.Player("modal-player", {
+        height: "100%",
+        width: "100%",
+        videoId: "",
+        playerVars: {
+            autoplay: 1,
+            controls: 0,
+            loop: 1,
+            playlist: "",
+            mute: 1,
+            modestbranding: 1,
+            showinfo: 0,
+            iv_load_policy: 3,
+            fs: 1,
+            cc_load_policy: 0,
+            disablekb: 1,
+        },
+        events: {
+            onReady: onPlayerReady,
+        },
+    });
+    console.log(player)
 }
 let currentVideoKey = []; // 현재 재생 중인 영상 키를 저장하는 변수
 let currentVideoKeyVAR = -1;
@@ -365,4 +499,15 @@ arrows_main.forEach(arrow => {
         }
             // previous button on main
     })
+})
+
+
+// 메인 화면 정지함수 카드 클릭하면
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('movie-card-small')) {
+        player.pauseVideo()
+    }})
+
+document.getElementById('modal-close').addEventListener('click', (e) => {
+    player.playVideo()
 })

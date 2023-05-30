@@ -252,8 +252,3 @@ logo.addEventListener('mouseleave', () => {
 
 // 처음에 카드 info는 숨긴다.
 
-
-
-
-
-

@@ -8,12 +8,13 @@
     <title>Movie App</title>
 </head>
 <body>
-    <link rel="stylesheet" href="static/reset.css" />
-    <link rel="stylesheet" href="static/style.css" />
-    <script src="static/script.js" defer></script>
-    <script src="static/movie_list.mjs" type="module" defer></script>
-    <script src="static/tv_list.mjs" type="module" defer></script>
-    <script src="static/people_list.mjs" type="module" defer></script>
+    <link rel="stylesheet" href="static/global/reset.css" />
+    <link rel="stylesheet" href="static/home/style.css" />
+    <script src="static/home/script.js" defer></script>
+    <script src="static/home/movie_list.mjs" type="module" defer></script>
+    <script src="static/home/tv_list.mjs" type="module" defer></script>
+    <script src="static/home/people_list.mjs" type="module" defer></script>
+    <script src="static/home/modal.mjs" type="module" defer></script>
     <script src="https://www.youtube.com/iframe_api" ></script>
     <div id="MOTHER">
         <div id="side-bar">
@@ -27,6 +28,9 @@
                 <div id="side-bar-menu-container-1" class="side-bar-menu-container">
                     <div class="side-bar-menu">
                         <img id="home" src="static/imgs/home.png" alt="Home" /><a href="">Home</a>
+                    </div>
+                    <div class="side-bar-menu">
+                        <img id="movie" src="static/imgs/movie.png" alt="movie" /><a href="movie.html">Movie</a>
                     </div>
                     <div class="side-bar-menu">
                         <img id="favorite" src="static/imgs/favorite.png" alt="Favorites" /><a href="">Favorites</a>
@@ -98,7 +102,12 @@
             <!--            -->
             <!--  SECTION 2 -->
             <!--            -->
-            <div class="custom-shape-divider-top-1685348814">
+            <!-- <div  class="custom-shape-divider-top-1685348814">
+                <svg id="path" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path  d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                </svg>
+            </div> -->
+            <div class="custom-shape-divider-top-1685448245">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                     <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
                 </svg>
@@ -130,6 +139,57 @@
             </section>
         </main>
     </div>
-</body>
+    <section id="movie-info-container">
+        <div id="modal-player-div">
+            <div id="modal-close"></div>
+            <div class="arrow-modal prev"></div>
+            <div class="arrow-modal next"></div>
+            <!-- section1 메세지 참고 -->
+            <div id="modal-div-comp-3">
+                <button class="Button-watch" id="Button-modal-watch">Watch now</button>
+                <button id="modal-like" class="Button-add-to-favorite"></button>
+                <div id="modal-mute"></div>
+            </div>
+            <div id="modal_video_info" class="movie-basic-info">
+                <p id="modal-movie-year" class="movie-basic-info-year">2023</p>
+                <p id="modal-movie-genre" class="movie-basic-info-genre">Drama</p>
+            </div>
+            <h2 id="modal-movie-title">Coding: First Assignment</h2>
+        </div>
+        <div id="movie-info-text-container">
+            <div id="modal-text-left">
+                <h2 id="modal-overview-title">Overview:</h2>
+                <p id="modal-movie-info">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta nobis amet eius ratione delectus aliquam iure cupiditate quisquam. Ipsam, facere numquam nisi sunt illum quo velit repudiandae vel quia ab.</p>
+            </div>
+            <div id="modal-text-right">
+                <div id="modal-text-right-div1">
+                    <h1>Rate:</h1>
+                    <div id="modal_rate_container">
+                        <img id="modal-rate-1" class="modal-rate" >
+                        <img id="modal-rate-2" class="modal-rate" >
+                        <img id="modal-rate-3" class="modal-rate" >
+                        <img id="modal-rate-4" class="modal-rate" >
+                        <img id="modal-rate-5" class="modal-rate" >
+                    </div>
+                    
+                </div>
+                <div id="progress-bar-container">
+                    <h3>Popularity:</h3>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                <div id="release-date-container">
+                    <h3>Release date:</h3>
+                    <p id="release-date"></p>
+                </div>
+                <div id="genres-container">
+                    <h3>Genres:</h3>
+                    <p id="modal-genres"></p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+</body>
 </html>
