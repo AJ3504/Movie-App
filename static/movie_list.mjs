@@ -2,7 +2,7 @@
  * GLOBAL VARIABLES
  */
 const POPULAR_MOVIES = [];
-
+let FETCH_RESULT;
 
 /**
  * TMDB 기본 키와 URL 작업
@@ -52,9 +52,18 @@ fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', options)
  * fetch "POPULAR" movie lists
  */
 fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
-    .then(response => response.json())
     .then(response => {
-        response.results.forEach(movie => {
+        if (!response.ok) {
+            throw new Error('MOVIE FETCH FAILURE')
+        } return response.json()
+    })
+    .then(data => {
+        FETCH_RESULT = data.results
+        console.log(FETCH_RESULT)
+
+
+        
+        data.results.forEach(movie => {
             // Movie Poster
             const movie_id = movie.id
             const movie_title = movie.original_title
@@ -137,7 +146,10 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
             });
         })
     })
-    .catch(err => console.error(err));
+    .catch(err => {
+        console.log('movie fetch error caught')
+        console.error(err)
+    });
 
 // /vZloFAK7NmvMGKE7VkF5UHaz0I.jpg
 // 이미지 BASE URL "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
@@ -222,43 +234,43 @@ let currentVideoKey = []; // 현재 재생 중인 영상 키를 저장하는 변
 let currentVideoKeyVAR = -1;
 // random_movies_INDEX 나온 것들 담는 Array
 let tempRandomNumber = [];
-function playRandomMovie() {
-    // POPULAR_MOVIES.length가 0이면 즉, 서버에 문제가 있어서 로딩이 제대로 안되었다면?
-    if (POPULAR_MOVIES.length === 0) {
-        fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error('에러발생')
-            }
-            res.json()})
-        .then(response => {
-            response.results.forEach(movie => {
-                // Movie Poster
-                const movie_id = movie.id
-                const movie_title = movie.original_title
-                const movie_poster = `${TMDB_IMAGE_BASE_URL}/w500/${movie.poster_path}`
-                const movie_overview = movie.overview
-                const movie_genre = movie.genre_ids // Array of genre codes
-                const movie_genres = [];
-                movie_genre.forEach(genreCode => {
-                    movie_genres.push(TMDB_MOVIE_GENRES[genreCode])
-                })
-                const movie_year = movie.release_date.slice(0, 4)
-                //
-                // Global Variable 에 넣기
-                POPULAR_MOVIES.push({
-                    'id': movie_id,
-                    'title': movie_title,
-                    'year': movie_year,
-                    'poster': movie_poster,
-                    'overview': movie_overview,
-                    'genre': movie_genres,
-                })
-            })
 
-            })
-        .catch(err => console.log(err))
-    } else {
+function playRandomMovie() {
+    // fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
+    //     .then((response) => {
+    //         if (!response.ok) {
+    //             throw new Error('에러발생')
+    //         } 
+    //         return response.json()
+    //     })
+    //     .then(response => {
+    //         response.results.forEach(movie => {
+    //             // Movie Poster
+    //             const movie_id = movie.id
+    //             const movie_title = movie.original_title
+    //             const movie_poster = `${TMDB_IMAGE_BASE_URL}/w500/${movie.poster_path}`
+    //             const movie_overview = movie.overview
+    //             const movie_genre = movie.genre_ids // Array of genre codes
+    //             const movie_genres = [];
+    //             movie_genre.forEach(genreCode => {
+    //                 movie_genres.push(TMDB_MOVIE_GENRES[genreCode])
+    //             })
+    //             const movie_year = movie.release_date.slice(0, 4)
+    //             //
+    //             // Global Variable 에 넣기
+    //             POPULAR_MOVIES.push({
+    //                 'id': movie_id,
+    //                 'title': movie_title,
+    //                 'year': movie_year,
+    //                 'poster': movie_poster,
+    //                 'overview': movie_overview,
+    //                 'genre': movie_genres,
+    //             })
+    //         })
+
+    //         })
+    //     .catch(err => console.log(err))
+
         function makeRandomNumber() {
             const tempNum = (Math.random()*(POPULAR_MOVIES.length)).toFixed(0);
             let COMPARE = [];
@@ -297,7 +309,7 @@ function playRandomMovie() {
 
 
 
-    }
+
 
 }
 

@@ -17,7 +17,10 @@ h1, h2, h3, p, a {
     color: white;
 }
 /* 기본 폰트 세팅 끝 */
-
+a:hover {
+    transform: scale(1.05);
+    transition: ease-in-out 0.3s;
+}
 body {
     background: #242421;
     width: calc(100% - 250px);
@@ -158,8 +161,10 @@ img {
 /* 메인 세팅 시작 */
 main {
     width: 100%;
-    background: rgb(142,204,192);
-background: linear-gradient(45deg, rgba(142,204,192,1) 0%, rgba(80,113,123,1) 50%, rgba(58,64,66,1) 100%);
+    /* background: rgb(142,204,192);
+background: linear-gradient(45deg, rgba(142,204,192,1) 0%, rgba(80,113,123,1) 50%, rgba(58,64,66,1) 100%); */
+background: rgb(33,33,33);
+background: linear-gradient(45deg, rgba(33,33,33,1) 0%, rgba(58,64,66,1) 35%, rgba(80,113,112,1) 94%);
     padding-left: 80px;
     transition: all 0.4s;
 }
@@ -179,6 +184,14 @@ header {
     position: relative; /* 유튜브 설정 이거 두개를 해야 영상 위에서 존재한다. */
     z-index: 10;        /* 유튜브 설정 이거 두개를 해야 영상 위에서 존재한다. */
 }
+.header_links {
+    transition: all 0.3s;
+}
+
+.header_links:hover{
+    color: #50717b;
+    transition: transform ease-in-out 0.3s;
+}
 /* nav 왼쪽 부분 */
 #header-div1 ul {
     height: 100%;
@@ -186,6 +199,24 @@ header {
     gap: 25px;
     padding-left: 35px;
     align-items: center;
+}
+#header-div2 img {
+    cursor: pointer;
+    transform: scale(1);
+    transition: ease-in-out 0.3s;
+}
+#header-div2 img:hover {
+    transform: scale(1.1);
+    transition: ease-in-out 0.1s;
+}
+#profile-name {
+    cursor: pointer;
+    transition: ease-in-out 0.2s;
+}
+#profile-name:hover {
+    color: #50717b;
+    font-weight: 700;
+    transition: ease-in-out 0.2s;
 }
 /* nav 오른쪽 부분 */
 #header-div2 {
