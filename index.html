@@ -8,6 +8,7 @@
     <title>Movie App</title>
 </head>
 <body>
+    <script src="static/global/cookie_set.js" type="module" defer></script>
     <link rel="stylesheet" href="static/global/reset.css" />
     <link rel="stylesheet" href="static/home/style.css" />
     <script src="static/home/script.js" defer></script>
@@ -94,7 +95,7 @@
                     </div>
                     <div id="section1-div-comp-3">
                         <button class="Button-watch" id="Button-watch">Watch now</button>
-                        <button class="Button-add-to-favorite"></button>
+                        <button id="Button-main-favorite" class="Button-add-to-favorite"></button>
                         <div id="main-mute"></div>
                     </div>
                 </div>
@@ -180,7 +181,7 @@
                     </div>
                 </div>
                 <div id="release-date-container">
-                    <h3>Release date:</h3>
+                    <h3 id="release-date-h3">Release date:</h3>
                     <p id="release-date"></p>
                 </div>
                 <div id="genres-container">

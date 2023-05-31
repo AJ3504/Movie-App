@@ -98,7 +98,7 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
 
             // example card 1
             var cardContainer = document.createElement("div");
-            cardContainer.classList.add("movie-card-small", "card-1");
+            cardContainer.classList.add("movie-card-small", "card-1", "trending-movie");
             cardContainer.setAttribute("_id", movie_id)
             cardContainer.attributes.setNamedItem
             cardContainer.style.backgroundImage = `url('${movie_poster}')`
@@ -200,7 +200,7 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=2', option
 
             // example card 1
             var cardContainer = document.createElement("div");
-            cardContainer.classList.add("movie-card-small", "card-1");
+            cardContainer.classList.add("movie-card-small", "card-1", "trending-movie");
             cardContainer.setAttribute("_id", movie_id)
             cardContainer.style.backgroundImage = `url('${movie_poster}')`
             cardContainer.style.zIndex = '1'
@@ -391,15 +391,20 @@ function playRandomMovie() {
     const random_movie = POPULAR_MOVIES[tempResult];
     currentVideoKey.push(random_movie.id);
     currentVideoKeyVAR++
-  
+    setTimeout(() => {
+        const mainMovieTitleBox = document.getElementById('section1-movie-title');
+        mainMovieTitleBox.innerText = movie_title;
+        mainMovieInfo.querySelector('.movie-basic-info-year').innerText = movie_year;
+        mainMovieInfo.querySelector('.movie-basic-info-genre').innerText = movie_genre;
+    }, 500);
     const movie_title = random_movie.title;
     const movie_year = random_movie.year;
     const movie_genre = random_movie.genre[0];
     const mainMovieInfo = document.getElementById('main_video_info');
-    const mainMovieTitleBox = document.getElementById('section1-movie-title');
-    mainMovieTitleBox.innerText = movie_title;
-    mainMovieInfo.querySelector('.movie-basic-info-year').innerText = movie_year;
-    mainMovieInfo.querySelector('.movie-basic-info-genre').innerText = movie_genre;
+    // const mainMovieTitleBox = document.getElementById('section1-movie-title');
+    // mainMovieTitleBox.innerText = movie_title;
+    // mainMovieInfo.querySelector('.movie-basic-info-year').innerText = movie_year;
+    // mainMovieInfo.querySelector('.movie-basic-info-genre').innerText = movie_genre;
     let randomID = currentVideoKey[currentVideoKeyVAR];
   
     fetch(`https://api.themoviedb.org/3/movie/${randomID}/videos`, options)
@@ -425,13 +430,68 @@ const section1 = document.getElementById('section1');
 const section1_Width_main = section1.offsetWidth;
 
 arrows_main.forEach(arrow => {
-    arrow.addEventListener('click', () => {
+    const movie_title = document.getElementById('section1-movie-title');
+    const movie_year = document.querySelector('.movie-basic-info-year');
+    const movie_genre = document.querySelector('.movie-basic-info-genre');
+    const movie_button = document.querySelector('#Button-watch');
+    const movie_favorite = document.querySelector('#Button-main-favorite');
+    const movie_mute_icon = document.querySelector('#main-mute');
+    const movie_mute_icon1 = document.querySelector('#main-mute1');
+    const header = document.querySelector('header');
+    arrow.addEventListener('click', (e) => {
         // next arrow를 클릭하면 //
         if (arrow.classList.contains('next')) {
             // next 버튼 클릭하면 랜덤 영화 틀기
             if (currentVideoKey.length-1 <= currentVideoKeyVAR) {
-                playRandomMovie()
-
+                const player = e.target.parentNode.parentNode.querySelector('#player')
+                player.style.opacity = 0;
+                movie_title.style.opacity = 0;
+                movie_year.style.opacity = 0;
+                movie_genre.style.opacity = 0;
+                movie_button.style.opacity = 0;
+                movie_favorite.style.opacity = 0;
+                if (movie_mute_icon) {
+                    movie_mute_icon.style.opacity = 0;
+                } else {
+                    movie_mute_icon1.style.opacity = 0;
+                }
+                header.style.opacity = 0;
+                setTimeout(() => {
+                    playRandomMovie()
+                }, 500);
+                setTimeout(() => {
+                    player.style.opacity = 1;
+                    if (movie_mute_icon) {
+                        movie_mute_icon.style.opacity = 0.8;
+                    } else {
+                        movie_mute_icon1.style.opacity = 0.8;
+                    }
+                }, 1000);
+                setTimeout(() => {
+                    movie_title.style.opacity = 1;
+                    if (movie_mute_icon) {
+                        movie_mute_icon.style.opacity = 0.4;
+                    } else {
+                        movie_mute_icon1.style.opacity = 0.4;
+                    }
+                }, 4000);
+                setTimeout(() => {
+                    movie_year.style.opacity = 1;
+                }, 4500);
+                setTimeout(() => {
+                    movie_genre.style.opacity = 1;
+                }, 4500);
+                setTimeout(() => {
+                    movie_button.style.opacity = 1;
+                }, 5000);
+                setTimeout(() => {
+                    movie_favorite.style.opacity = 1;
+                }, 5200);
+                setTimeout(() => {
+                    header.style.opacity = 1;
+                }, 6500);
+                
+                
             // previous 버튼 눌렀다가 next 버튼 누른거면 랜덤 영화가 아니라 전에 틀었던거 다시 보여주기
             } else {
                 currentVideoKeyVAR++
@@ -506,8 +566,13 @@ arrows_main.forEach(arrow => {
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('movie-card-small')) {
         player.pauseVideo()
+        document.getElementById('player').style.opacity = '0'
     }})
 
 document.getElementById('modal-close').addEventListener('click', (e) => {
     player.playVideo()
+    setTimeout(() => {
+        document.getElementById('player').style.opacity = '1'
+    }, 300);
+    
 })

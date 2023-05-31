@@ -1,8 +1,8 @@
 /**
  * GLOBAL VARIABLES
  */
-const POPULAR_MOVIES = [];
-
+const TV_FETCH_INFO = [];
+export {TV_FETCH_INFO as POPULAR_TVS};
 
 
 /**
@@ -41,37 +41,121 @@ fetch('https://api.themoviedb.org/3/genre/tv/list?language=en', options)
 
 //
 
-const TV_FETCH_INFRO = [];
-fetch('https://api.themoviedb.org/3/trending/tv/week?language=en-US', options)
+
+fetch('https://api.themoviedb.org/3/trending/tv/week?language=en-US&page=1', options)
     .then(response => response.json())
     .then(response => {
+        console.log(response)
         response.results.forEach(tv => {
             // Movie Poster
             const tv_id = tv.id;
             const tv_title = tv.name;
             const tv_overview = tv.overview;
-            const tv_poster_url = tv.poster_path;
+            const tv_poster_url = `${TMDB_IMAGE_BASE_URL}/w500${tv.poster_path}`;
             const tv_year = tv.first_air_date.slice(0, 4);
             const tv_genre = tv.genre_ids
             const tv_genres = [];
             tv_genre.forEach(genreCode => {
                 tv_genres.push(TMDB_MOVIE_GENRES[genreCode])
             })
-            TV_FETCH_INFRO.push({
+            TV_FETCH_INFO.push({
                 'id': tv_id,
                 'title': tv_title,
                 'overview': tv_overview,
                 'poster': tv_poster_url,
                 'year': tv_year,
-                'genre': tv_genres
+                'genre': tv_genres,
+                'vote_average': tv.vote_average,
+                'first_air_date': tv.first_air_date
             })
             var parentElement = document.getElementById("trending-tv-cards-container");
 
             // example card 1
             var cardContainer = document.createElement("div");
-            cardContainer.classList.add("movie-card-small", "card-1");
+            cardContainer.classList.add("movie-card-small", "card-1", "trending-tv");
             cardContainer.setAttribute("_id", tv_id)
-            cardContainer.style.backgroundImage = `url('${TMDB_IMAGE_BASE_URL}/w500${tv_poster_url}')`
+            cardContainer.style.backgroundImage = `url('${tv_poster_url}')`
+            cardContainer.style.zIndex = '1'
+
+            var button = document.createElement("button");
+            button.classList.add("Button-add-to-favorite", "small_card");
+            cardContainer.appendChild(button);
+
+            var infoContainer = document.createElement("div");
+            infoContainer.classList.add("movie-card-info", "small_card");
+            cardContainer.appendChild(infoContainer);
+
+            var title = document.createElement("h1");
+            title.classList.add("movie-title", "small_card");
+            title.textContent = tv_title;
+            infoContainer.appendChild(title);
+
+            var basicInfoContainer = document.createElement("div");
+            basicInfoContainer.classList.add("movie-basic-info", "small_card");
+            infoContainer.appendChild(basicInfoContainer);
+
+            var year = document.createElement("p");
+            year.classList.add("movie-basic-info-year", "small_card");
+            year.textContent = tv_year;
+            basicInfoContainer.appendChild(year);
+
+            var genre = document.createElement("p");
+            genre.classList.add("movie-basic-info-genre", "small_card");
+            genre.textContent = tv_genres[0];
+            basicInfoContainer.appendChild(genre);
+
+            // 부모 요소에 추가
+            parentElement.appendChild(cardContainer);
+
+            const small_cards = document.querySelectorAll('.movie-card-small.card-1')
+            small_cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.querySelector('.movie-card-info').style.opacity = '1'
+                    card.querySelector('.Button-add-to-favorite.small_card').style.opacity = '1'
+                })
+                card.addEventListener('mouseleave', () => {
+                    card.querySelector('.movie-card-info').style.opacity = '0'
+                    card.querySelector('.Button-add-to-favorite.small_card').style.opacity = '0'
+                })
+            });
+        })
+    })
+    .catch(err => console.log(err));
+
+ 
+    fetch('https://api.themoviedb.org/3/trending/tv/week?language=en-US&page=2', options)
+    .then(response => response.json())
+    .then(response => {
+        console.log(response)
+        response.results.forEach(tv => {
+            // Movie Poster
+            const tv_id = tv.id;
+            const tv_title = tv.name;
+            const tv_overview = tv.overview;
+            const tv_poster_url = `${TMDB_IMAGE_BASE_URL}/w500${tv.poster_path}`;
+            const tv_year = tv.first_air_date.slice(0, 4);
+            const tv_genre = tv.genre_ids
+            const tv_genres = [];
+            tv_genre.forEach(genreCode => {
+                tv_genres.push(TMDB_MOVIE_GENRES[genreCode])
+            })
+            TV_FETCH_INFO.push({
+                'id': tv_id,
+                'title': tv_title,
+                'overview': tv_overview,
+                'poster': tv_poster_url,
+                'year': tv_year,
+                'genre': tv_genres,
+                'vote_average': tv.vote_average,
+                'first_air_date': tv.first_air_date
+            })
+            var parentElement = document.getElementById("trending-tv-cards-container");
+
+            // example card 1
+            var cardContainer = document.createElement("div");
+            cardContainer.classList.add("movie-card-small", "card-1", "trending-tv");
+            cardContainer.setAttribute("_id", tv_id)
+            cardContainer.style.backgroundImage = `url('${tv_poster_url}')`
             cardContainer.style.zIndex = '1'
 
             var button = document.createElement("button");

@@ -185,6 +185,7 @@ header {
     justify-content: space-between;
     position: relative; /* 유튜브 설정 이거 두개를 해야 영상 위에서 존재한다. */
     z-index: 10;        /* 유튜브 설정 이거 두개를 해야 영상 위에서 존재한다. */
+    transition: ease-in-out 0.8s;
 }
 .header_links {
     transition: all 0.3s;
@@ -257,6 +258,10 @@ header {
     letter-spacing: 1px;
     font-weight: 600;
     cursor: default;
+    transition: ease-in-out 0.3s;
+}
+.movie-basic-info-genre {
+    transition: ease-in-out 0.3s;
 }
 .movie-basic-info {
     display: flex;
@@ -269,10 +274,12 @@ header {
 .movie-basic-info-year {
     padding-right: 10px;
     border-right: 1.5px white solid;
+    transition: ease-in-out 0.3s;
 }
 .movie-basic-info-seasons {
     padding-left: 10px;
     border-left: 1.5px white solid;
+    transition: ease-in-out 0.3s;
 }
 /* Watch now 버튼 */
 #section1-div-comp-3 {
@@ -288,11 +295,14 @@ header {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: ease-in-out 0.2s;
+    transition: ease-in-out 0.3s;
     transform: scale(1);
     -webkit-box-shadow: 0px 0px 300px 0px rgba(80,113,123,1);
     -moz-box-shadow: 0px 0px 300px 0px rgba(80,113,123,1);
     box-shadow: 0px 0px 300px 0px rgba(80,113,123,1);
+}
+#Button-main-favorite {
+    transition: ease-in-out 0.3s;
 }
 #Button-watch:hover {
     transform: scale(1.05);
@@ -496,7 +506,7 @@ header {
     pointer-events: none;   
     /* transform: scaleX(1.05) scaleY(1.2); */
     transform: scale(1.35);
-    transition: ease-in-out 0.2s;
+    transition: ease-in-out 0.5s;
 
 }
 
