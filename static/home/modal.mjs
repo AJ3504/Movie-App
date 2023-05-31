@@ -1,6 +1,6 @@
 import POPULAR_MOVIES from './movie_list.mjs'
 import { POPULAR_TVS } from './tv_list.mjs'
-
+import PEOPLE_INFO from './people_list.mjs'
 
 // Global Variable
 let YOUTUBE_TEMP_KEY = [];
@@ -139,7 +139,7 @@ function onYouTubeIframeAPIReady(video_key) {
  *  TRENDING MOVIE
  */ 
 document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('movie-card-small', "trending-movie")) {
+    if (e.target.classList.contains("trending-movie")) {
         document.querySelector('#MOTHER').style.opacity = '0.2'
         const MODAL = document.getElementById('movie-info-container');
         MODAL.style.opacity = 1;
@@ -290,7 +290,7 @@ document.addEventListener('click', (e) => {
  *  TRENDING TV
  */ 
 document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('movie-card-small', "trending-tv")) {
+    if (e.target.classList.contains("trending-tv")) {
         document.querySelector('#MOTHER').style.opacity = '0.2'
         const MODAL = document.getElementById('movie-info-container');
         MODAL.style.opacity = 1;
@@ -449,3 +449,10 @@ document.getElementById('modal-close').addEventListener('click', (e) => {
     // YOUTUBE_TEMP_KEY키 비우기
     YOUTUBE_TEMP_KEY.length = 0;
 })
+
+
+
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains("trending-people")) {
+        console.log(PEOPLE_INFO)
+    }})

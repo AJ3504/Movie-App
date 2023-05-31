@@ -71,6 +71,10 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
             movie_genre.forEach(genreCode => {
                 movie_genres.push(TMDB_MOVIE_GENRES[genreCode])
             })
+            // for (let i = 0; i < movie.genre_ids.length; i++) {
+            //     movie_genres.push(TMDB_MOVIE_GENRES[i])
+            //     }
+            
             const movie_year = movie.release_date.slice(0, 4)
             //
             // Global Variable 에 넣기

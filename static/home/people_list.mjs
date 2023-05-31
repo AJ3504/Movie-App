@@ -1,3 +1,5 @@
+
+
 /**
  * TMDB 기본 키와 URL 작업
  */
@@ -19,7 +21,7 @@ const options = {
 // PEOPLE FETCH
 // GLOBAL VARIABLE
 const PEOPLE_INFO = [];
-const known_for_TEMP = [];
+
 fetch('https://api.themoviedb.org/3/trending/person/week?language=en-US', options)
     .then(res => res.json())
     .then(data => {
@@ -33,29 +35,13 @@ fetch('https://api.themoviedb.org/3/trending/person/week?language=en-US', option
                 'gender': person.gender,
                 'department': person.known_for_department,
                 'profile': profile,
-                'known_for' : []
+                'known_for' : person.known_for
             })
-            person.known_for.forEach(el => {
-                // 아래 정보는 people 클릭하면 나오는 부가 정보로 띄우기
-                const movie_title = el.title
-                const movie_poster = TMDB_IMAGE_BASE_URL + '/w500' + el.poster_path
-                const movie_release_date = el.release_date
-                const movie_overview = el.overview
-                known_for_TEMP.push({
-                    'id': id,
-                    'name': name,
-                    'title': movie_title,
-                    'poster': movie_poster,
-                    'date': movie_release_date,
-                    'overview': movie_overview
-                })
-            })
-            
         var parentElement = document.getElementById("trending-people-cards-container");
 
             // example card 1
             var cardContainer = document.createElement("div");
-            cardContainer.classList.add("movie-card-small", "card-1");
+            cardContainer.classList.add("movie-card-small", "card-1", "trending-people");
             cardContainer.setAttribute("_id", id)
             cardContainer.style.backgroundImage = `url('${TMDB_IMAGE_BASE_URL}/h632${person.profile_path}')`
             cardContainer.style.zIndex = '1'
@@ -104,3 +90,6 @@ fetch('https://api.themoviedb.org/3/trending/person/week?language=en-US', option
 
         });
     })
+
+
+export default PEOPLE_INFO

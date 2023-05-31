@@ -250,5 +250,26 @@ logo.addEventListener('mouseleave', () => {
 })
 
 
-// 처음에 카드 info는 숨긴다.
+const muteBtn = document.getElementById('main-mute')
+const muteBtn1 = document.getElementById('main-mute1')
+/**
+ * main mute 버튼 호버 동작 설정
+ * @param {mute_button} target
+ * @returns {change_opacity}
+ *  */ 
+function muteBtnHover(target) {
+    target.style.opacity = 1
+}
+function muteBtnHoverAway(target) {
+    target.style.opacity = 0.4
+}
 
+if (muteBtn) {
+    muteBtn.addEventListener('mouseenter', () => muteBtnHover(muteBtn))
+    muteBtn.addEventListener('mouseleave', () => muteBtnHoverAway(muteBtn))
+}
+if (muteBtn1) {
+    muteBtn1.addEventListener('mouseenter', () => muteBtnHover(muteBtn1))
+    muteBtn1.addEventListener('mouseleave', () => muteBtnHoverAway(muteBtn1))
+}
+//
