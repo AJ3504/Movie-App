@@ -23,11 +23,6 @@ const options = {
     }
 };
 
-
-
-
-
-
 // TV GENRE FETCH
 const TMDB_MOVIE_GENRES = {};
 fetch('https://api.themoviedb.org/3/genre/tv/list?language=en', options)

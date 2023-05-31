@@ -16,10 +16,17 @@
     <script src="static/home/tv_list.mjs" type="module" defer></script>
     <script src="static/home/people_list.mjs" type="module" defer></script>
     <script src="static/home/modal.mjs" type="module" defer></script>
+    <script src="static/global/search.mjs" type="module" defer></script>
     <script src="https://www.youtube.com/iframe_api" ></script>
     <div id="MOTHER">
+        <section id="search-section">
+            <div id="search-container">
+                <img src="static/imgs/search-black.png" alt="search icon" id="search-icon">
+                <input type="text" name="search" id="search-area" placeholder="Search" autofocus autocomplete="off">
+                <img id="close-search" src="static/imgs/close.png" alt="close button for search bar">
+            </div>
+        </section>
         <div id="side-bar">
-            
             <div id="logo-container">
                 <img id="logo" src="static/imgs/logo.png" alt="Logo" />
                 <h1 id="logo-h1">WATCH</h1>
@@ -73,7 +80,7 @@
                         </ul>
                     </div>
                     <div id="header-div2">
-                        <img src="static/imgs/search.png" alt="" />
+                        <img id="search-home" src="static/imgs/search.png" alt="" />
                         <!-- search icon -->
                         <img id="notification" src="static/imgs/notification.png" alt="notification" />
                         <!-- notification icon -->
@@ -191,6 +198,6 @@
             </div>
         </div>
     </section>
-
+    
 </body>
 </html>

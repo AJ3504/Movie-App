@@ -95,6 +95,7 @@ function playYouTubeVideo(videoKey) {
 */ 
 function onYouTubePlayerError(event) {
     // 오류 처리 로직을 추가하거나 오류 메시지를 표시하는 등의 작업 수행
+    console.log("ERROR ERROR ERROR! LET'S CHANGE THE VIDEO!")
     let length;
     // 이렇게 함으로써 리스트의 새로운 마지막 요소를 재생할 수 있게 된다.
     YOUTUBE_TEMP_KEY.pop();
@@ -105,31 +106,6 @@ function onYouTubePlayerError(event) {
     playYouTubeVideo(TRAILER_KEY);
   }
   
-// 유튜브 API를 초기화합니다.
-function onYouTubeIframeAPIReady(video_key) {
-    // API 초기화 코드
-    player = new YT.Player("modal-player", {
-        height: "100%",
-        width: "100%",
-        videoId: video_key,
-        playerVars: {
-            autoplay: 1,
-            controls: 0,
-            loop: 1,
-            playlist: "",
-            mute: 1,
-            modestbranding: 1,
-            showinfo: 0,
-            iv_load_policy: 3,
-            fs: 1,
-            cc_load_policy: 0,
-            disablekb: 1,
-        },
-        events: {
-            onReady: onPlayerReady,
-        },
-    });
-}
 
 
 
