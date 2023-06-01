@@ -1,9 +1,12 @@
 /**
  * GLOBAL VARIABLES
+ * 전역 변수 모음
  */
-const POPULAR_MOVIES = [];
-let FETCH_RESULT;
-export default POPULAR_MOVIES;
+const POPULAR_MOVIES = [];  // 인기 영화 불러와서 저장하는 배열 생성
+const TMDB_MOVIE_GENRES = {}; // 영화 불러 올 때 장르 저장하는 객체 생성
+let player; // 동영상 플레이어 변수 선언
+export default POPULAR_MOVIES; // 영화 목록 내보내기
+
 /**
  * TMDB 기본 키와 URL 작업
  */
@@ -20,9 +23,9 @@ const options = {
       accept: 'application/json',
       Authorization: `Bearer ${TMDB_API_READ_ACCESS_TOKEN}`
     }
-  };
+};
 
-
+// 기본 TMDB 구성 불러오기
 fetch('https://api.themoviedb.org/3/configuration', options)
     .then(response => response.json())
     .then(response => {
@@ -36,8 +39,6 @@ fetch('https://api.themoviedb.org/3/configuration', options)
 
 
 // 영화 장르 리스트 가져오기
-
-const TMDB_MOVIE_GENRES = {};
 fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', options)
   .then(response => response.json())
   .then(response => {
@@ -58,8 +59,6 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
         } return response.json()
     })
     .then(data => {
-        FETCH_RESULT = data.results
-        console.log(data.results)
         data.results.forEach(movie => {
             // Movie Poster
             const movie_id = movie.id
@@ -71,13 +70,10 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
             movie_genre.forEach(genreCode => {
                 movie_genres.push(TMDB_MOVIE_GENRES[genreCode])
             })
-            // for (let i = 0; i < movie.genre_ids.length; i++) {
-            //     movie_genres.push(TMDB_MOVIE_GENRES[i])
-            //     }
-            
+            // 영화 연도만 따로 추출하기 위해 String.slice() 메소드 사용 - 0번째에서 4번째까지만 따오기 "2023"
             const movie_year = movie.release_date.slice(0, 4)
             //
-            // Global Variable 에 넣기
+            // 전역 변수에 저장
             POPULAR_MOVIES.push({
                 'id': movie_id,
                 'title': movie_title,
@@ -90,22 +86,17 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
                 'release date': movie.release_date
             })
 
-            //
-            //
-
-
             // 카드만들기
-            //
-            //
+
             // 부모 요소 가져오기
             var parentElement = document.getElementById("trending-cards-container");
 
-            // example card 1
+            // 카드 생성하기
             var cardContainer = document.createElement("div");
             cardContainer.classList.add("movie-card-small", "card-1", "trending-movie");
-            cardContainer.setAttribute("_id", movie_id)
+            cardContainer.setAttribute("_id", movie_id) // 카드 div에 _id라는 attribute를 만들어 고유 id 입력하기
             cardContainer.attributes.setNamedItem
-            cardContainer.style.backgroundImage = `url('${movie_poster}')`
+            cardContainer.style.backgroundImage = `url('${movie_poster}')` // 포스터를 카드의 배경화면으로 지정
             cardContainer.style.zIndex = '1'
 
             var button = document.createElement("button");
@@ -132,7 +123,7 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', option
 
             var genre = document.createElement("p");
             genre.classList.add("movie-basic-info-genre", "small_card");
-            genre.textContent = movie_genres[0];
+            genre.textContent = movie_genres[0];    // 영화 장르 배열의 첫 번째 요소만 가져오기
             basicInfoContainer.appendChild(genre);
 
             // 부모 요소에 추가
@@ -165,7 +156,6 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=2', option
         } return response.json()
     })
     .then(data => {
-        FETCH_RESULT = data.results
         data.results.forEach(movie => {
             // Movie Poster
             const movie_id = movie.id
@@ -261,16 +251,7 @@ fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=2', option
     });
 
 
-
-
-
-
-
-
-
-
-// 동영상 가져오기 해보기
-let player;
+// 동영상 가져오기
 function playYouTubeVideo(videoKey) {
     if (player) {
         // 이전 플레이어가 있으면 영상을 변경합니다.
@@ -301,6 +282,7 @@ function playYouTubeVideo(videoKey) {
             fs: 1,
             cc_load_policy: 0,
             disablekb: 1,
+            rel: 0
         },
         events: {
             onReady: onPlayerReady,
@@ -313,88 +295,66 @@ function playYouTubeVideo(videoKey) {
     // 플레이어가 준비되었을 때 호출되는 함수입니다.
     function onPlayerReady(event) {
         document.getElementById('player').addEventListener('mousedown', (e) => {
-            e.preventDefault()
+            e.preventDefault()  // 마우스 올려서 영상 조작등을 방지
         })
         event.target.mute(); // 영상을 음소거 처리합니다.
         event.target.playVideo(); // 영상을 재생합니다.
-        let i = 0;
+        let i = 0; // i를 변수로 둬 스위치 작용하기
         document.getElementById('main-mute').addEventListener('click', (e) => {
-            if (i) {
+            if (i) { // i가 1이면 음소거하기
                 event.target.mute();
                 i--
                 e.target.id = "main-mute"
-            } else {
+            } else { // i가 0이면 소리 나오게하기
                 event.target.unMute()
                 i++
                 e.target.id = "main-mute1"
             }
-            // player.setVolume(100); // 음량 설정 (0-100)
         })
     }
-
       }
-    
-    
 }
 
-// 유튜브 API를 초기화합니다.
-function onYouTubeIframeAPIReady() {
-    // API 초기화 코드
-    console.log(player)
-    player = new YT.Player("modal-player", {
-        height: "100%",
-        width: "100%",
-        videoId: "",
-        playerVars: {
-            autoplay: 1,
-            controls: 0,
-            loop: 1,
-            playlist: "",
-            mute: 1,
-            modestbranding: 1,
-            showinfo: 0,
-            iv_load_policy: 3,
-            fs: 1,
-            cc_load_policy: 0,
-            disablekb: 1,
-        },
-        events: {
-            onReady: onPlayerReady,
-        },
-    });
-    console.log(player)
-}
+
 let currentVideoKey = []; // 현재 재생 중인 영상 키를 저장하는 변수
-let currentVideoKeyVAR = -1;
-// random_movies_INDEX 나온 것들 담는 Array
-let tempRandomNumber = [];
-const usedNumbers = [];
+let currentVideoKeyVAR = -1; //currentVideoKeyVAR++ 를 하기 때문에 초기에 -1로 잡고 index 0 부터 시작하게끔 설정
+const usedNumbers = []; // 랜덤 숫자 결과를 담는 그릇
 
+/**
+ * 랜덤 영화 재생하기 함수
+ * @returns playYouTubeVideo(TRAILER_KEY)
+ */
 function playRandomMovie() {
-    if (POPULAR_MOVIES.length === 0) {
-        // 데이터 로딩이 완료되지 않은 경우
-        setTimeout(playRandomMovie, 100); // 1초 후에 다시 호출
+    if (POPULAR_MOVIES.length === 0) { // 데이터 로딩이 완료되지 않은 경우
+        setTimeout(playRandomMovie, 100); // 0.1초 후에 다시 호출
         return;
       }
-    let tempResult;
+    let tempResult; // 임시 랜덤 숫자 저장소 생성
+    /**
+     * 숫자 0과 POPULAR_MOVIES에 불러와진 영화의 숫자 사이의 랜덤 숫자를 산출
+     * @returns random number
+     */
     function makeRandomNumber() {
         const tempNum = (Math.random() * POPULAR_MOVIES.length).toFixed(0);
         const random_movies_INDEX = parseInt(tempNum);
         
+        // 랜덤으로 나왔던 숫자들을 저장한 배열에 새로나온 랜덤 수를 비교하여
+        // 이미 나왔던 숫자는 생략하고 새로운 숫자를 뽑게하는 함수
         if (usedNumbers.includes(random_movies_INDEX)) {
           return makeRandomNumber(); // 이미 사용된 숫자면 재귀 호출로 다시 생성
         } else {
           usedNumbers.push(random_movies_INDEX); // 사용된 숫자 기록
-          return random_movies_INDEX;
+          return random_movies_INDEX;   // 새로 나온 랜덤 숫자를 리턴
         }
       }
-    tempResult = makeRandomNumber();
-    // tempRandomNumber.push(tempResult);
+    tempResult = makeRandomNumber(); // tempResult는 새로 나온 랜덤 숫자
+
     
     // 추가: POPULAR_MOVIES 배열에 데이터를 할당
     const random_movie = POPULAR_MOVIES[tempResult];
-    currentVideoKey.push(random_movie.id);
-    currentVideoKeyVAR++
+    currentVideoKey.push(random_movie.id); // 현재 비디오 키를 currentVideoKey 배열에 추가
+    currentVideoKeyVAR++ // currentVideoKeyVAR를 1 올림 (0번째 영상, 1번째 영상 등...)
+    // 영상이 시작되고 500ms 이후에 업데이트된 영화 제목과 정보들을 새로 업데이트한다.
     setTimeout(() => {
         const mainMovieTitleBox = document.getElementById('section1-movie-title');
         mainMovieTitleBox.innerText = movie_title;
@@ -405,29 +365,29 @@ function playRandomMovie() {
     const movie_year = random_movie.year;
     const movie_genre = random_movie.genre[0];
     const mainMovieInfo = document.getElementById('main_video_info');
-    // const mainMovieTitleBox = document.getElementById('section1-movie-title');
-    // mainMovieTitleBox.innerText = movie_title;
-    // mainMovieInfo.querySelector('.movie-basic-info-year').innerText = movie_year;
-    // mainMovieInfo.querySelector('.movie-basic-info-genre').innerText = movie_genre;
+    // 바뀐 영화의 키를 randomID로 설정
     let randomID = currentVideoKey[currentVideoKeyVAR];
-  
+    // TMDM 서버에서 해당 유튜브 키를 갖고 검색 요청
     fetch(`https://api.themoviedb.org/3/movie/${randomID}/videos`, options)
       .then(res => res.json())
       .then(res => {
+        // 나온 데이터들이 거의 다 마지막 부분이 공식 트레일러인것을 확인했고,
+        // 최종 영화 상영키를 마지막 키로 지정
         const index = res.results.length;
         const TRAILER_KEY = res.results[index - 1].key;
+        // 영화 시작 함수
         playYouTubeVideo(TRAILER_KEY);
       });
   }
   
-
+// 웹사이트 처음 로딩시에 랜덤 영화 틀기 함수 시작
 window.addEventListener('load', () => {
     playRandomMovie()
 })
 
 
 /**
-* 화살표를 클릭하면 콘텐츠가 더 나오는 함수 SECTION 2
+* 메인에 화살표를 클릭하면 새로운 영상이 틀어지는 함수
 */
 const arrows_main = document.querySelectorAll('.arrow-main');
 const section1 = document.getElementById('section1');
@@ -446,6 +406,8 @@ arrows_main.forEach(arrow => {
         // next arrow를 클릭하면 //
         if (arrow.classList.contains('next')) {
             // next 버튼 클릭하면 랜덤 영화 틀기
+            // 현재 영화키 배열의 길이가 n번째(currentVideoKeyVAR) 영화보다 작을 때
+            // 즉, 현재 틀어진 영화가 이미 나왔던 영화가 아니면,
             if (currentVideoKey.length-1 <= currentVideoKeyVAR) {
                 const player = e.target.parentNode.parentNode.querySelector('#player')
                 player.style.opacity = 0;
@@ -460,9 +422,11 @@ arrows_main.forEach(arrow => {
                     movie_mute_icon1.style.opacity = 0;
                 }
                 header.style.opacity = 0;
+                //모든 화면을 어둡게 하는 효과를 준 후 500ms 이후에 랜덤 영화틀기 함수를 호출한다.
                 setTimeout(() => {
                     playRandomMovie()
                 }, 500);
+                // 아래는 애니메이션 구현용, n ms 뒤에 영화제목 등 정보들 자연스럽게 나오게 하기
                 setTimeout(() => {
                     player.style.opacity = 1;
                     if (movie_mute_icon) {
@@ -495,8 +459,8 @@ arrows_main.forEach(arrow => {
                     header.style.opacity = 1;
                 }, 6500);
                 
-                
-            // previous 버튼 눌렀다가 next 버튼 누른거면 랜덤 영화가 아니라 전에 틀었던거 다시 보여주기
+            // 이미 틀었던 영화에서 다시 왼쪽으로 갔다가 오른쪽으로 가는거면 다시 랜덤 영화를 틀지 않고
+            // 기존에 틀어놨던거 그대로 틀기
             } else {
                 currentVideoKeyVAR++
                 const nextMovieID = currentVideoKey[currentVideoKeyVAR]
@@ -566,21 +530,22 @@ arrows_main.forEach(arrow => {
 })
 
 
-// 메인 화면 정지함수 카드 클릭하면
+// 메인 화면 정지함수 => 밑의 카드들 클릭하면
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('movie-card-small')) {
-        player.pauseVideo()
-        document.getElementById('player').style.opacity = '0'
+        player.pauseVideo() // 메인 영상을 멈추고
+        document.getElementById('player').style.opacity = '0' // 메인 플레이어의 투명도를 0으로 한다.
     }})
-
+// 모달 창이 닫히면 다시 메인 영화를 시작한다. 300ms 후에 투명도를 1로 높혀 자연스럽게 영화가 시작되도록 유도한다.
 document.getElementById('modal-close').addEventListener('click', (e) => {
     player.playVideo()
     setTimeout(() => {
         document.getElementById('player').style.opacity = '1'
-    }, 300);
+    }, 350);
 })
 
 // SEARCH RESULT LIST CLICK => MAIN PLAYER STOPS
+// 검색버튼에 리스트를 클릭해도 메인 영상은 멈춘다.
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('search-result-inner-container')) {
         player.pauseVideo()
@@ -592,10 +557,10 @@ document.addEventListener('click', (e) => {
 
 
 // 더 많은 데이터 가져오기
-export async function fetchMovies(page) {
+export function fetchMovies(page) {
     const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`;
     
-    return await fetch(url, options)
+    return fetch(url, options)
       .then(response => {
         if (!response.ok) {
           throw new Error('MOVIE FETCH FAILURE');
@@ -604,8 +569,6 @@ export async function fetchMovies(page) {
       })
       .then(data => {
         const movies = data.results;
-        console.log(movies);
-        
         movies.forEach(movie => {
           // Movie 정보 처리
           const movie_id = movie.id;
@@ -614,12 +577,13 @@ export async function fetchMovies(page) {
           const movie_overview = movie.overview;
           const movie_genre = movie.genre_ids; // Array of genre codes
           const movie_genres = [];
+          const movie_year = movie.release_date.slice(0, 4);
           
           movie_genre.forEach(genreCode => {
             movie_genres.push(TMDB_MOVIE_GENRES[genreCode]);
           });
           
-          const movie_year = movie.release_date.slice(0, 4);
+          
           
           // Global 변수에 추가
           POPULAR_MOVIES.push({
@@ -643,7 +607,7 @@ export async function fetchMovies(page) {
   
   // 여러 페이지에 대해 fetch 요청 수행
 
-// 데이터 더 받기
+// 웹페이지 로드 후 5초 후에 데이터 더 받기
 const pages = [];
 setTimeout(() => {
     for (let i = 3; i < 50; i++) {
@@ -652,6 +616,6 @@ setTimeout(() => {
     pages.forEach(page => {
         fetchMovies(page)
     })
-}, 2000);
+}, 5000);
 
   

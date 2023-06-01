@@ -1,8 +1,12 @@
 /**
- * GLOBAL VARIABLES
- * 사이드바가 나와있으면 i = 1, 들어가면 i = 0;
+ * GLOBAL VARIABLES (전역 변수 모음)
  */
-let i = 0;
+let i = 0; // 사이드바가 나와있으면 i = 1, 들어가면 i = 0;
+const logo = document.getElementById('logo'); // 로고 아이콘
+const logoh1 = document.querySelector('#logo-h1'); // 로고 글자
+const sidebar_toggle = document.getElementById('side-bar-toggle'); // 사이드바 토글 아이콘
+const muteBtn = document.getElementById('main-mute') // 메인 비디오 플레이어의 음소거 버튼
+const muteBtn1 = document.getElementById('main-mute1') // 메인 비디오 플레이어의 음소거 풀기 버튼
 
 // NO CONTROL
 // 마우스 드래그 막기
@@ -21,6 +25,37 @@ document.addEventListener('DOMContentLoaded', () => {
     a_container.forEach(a => {
         a.style.display = 'none';
     })
+})
+
+// document.addEventListener로 이벤트 위임(Event Delegation)을 만들었습니다.
+// 따라서 동적으로 생성된 요소에도 클릭 이벤트를 적용하기 위해 해당 함수를 구현했습니다.
+// document.addEventListener('click', ...)를 사용하면 모든 클릭 이벤트를 하나의 핸들러에서 처리할 수 있어
+// 클릭 이벤트에 대한 일관된 처리를 할 수 있고, 코드의 가독성과 유지 보수성을 높일 수 있다고 합니다.
+document.addEventListener('click', (e) => {
+    // 카드 안에 있는 좋아요 버튼
+    if (e.target.classList.contains('Button-add-to-favorite')) {
+        const btn = e.target;
+        if (btn.classList.contains('liked')) {
+            btn.classList.remove('liked');
+        } else {
+            btn.classList.add('liked');
+        }
+    }
+
+});
+
+const section1 = document.getElementById('section1');
+// 섹션 1, 즉 메인 비디오 플레이어가 존재한다면, 홈 화면이므로 사이드바에 홈 아이콘을 색이 있는 아이콘으로 변경합니다.
+if (section1) {
+    document.getElementById('home').src = 'static/imgs/home_current.png'
+}
+// 로고를 호버링 하면 색이 있는 로고 아이콘으로 파일을 변경한다.
+logo.addEventListener('mouseenter', () => {
+    logo.src = 'static/imgs/logo_colored.png'
+})
+// 마우스가 로고아이콘을 벗어나면 기존의 아이콘으로 파일을 변경한다.
+logo.addEventListener('mouseleave', () => {
+    logo.src = 'static/imgs/logo.png'
 })
 
 /**
@@ -70,28 +105,24 @@ sidebarIcons.forEach(el => {
 });
 // // // // // // // // // // // // // // // // 
 /**
- * 로고 클릭 시 사이드바 나오고 들어가기
+ * 사이드바 버튼 클릭 시 사이드바 나오고 들어가기
  */
-const logo = document.getElementById('logo');
-const logoh1 = document.querySelector('#logo-h1');
-const sidebar_toggle = document.getElementById('side-bar-toggle');
 sidebar_toggle.addEventListener('click', (event) => {
-    // 사이드바 들어가기
-    if (i) {
+    // 사이드바 들어가기, i가 0이면 사이드바는 들어간 상태, 1이면 나온 상태
+    if (i) { // i = 1 == true === 사이드바가 나온상태이면
         i--
         const main = document.querySelector('main');
         const sidebar = document.getElementById('side-bar');
         const aTagsInSidebar = event.target.parentNode.parentNode.querySelectorAll('a')
-        console.log(aTagsInSidebar)
         sidebar.style.cssText = "transform: translateX(-200px);"
-        
+        // setTimeout 400ms로 설정하여 좀 더 다이나믹한 애니메이션 구현
         setTimeout(() => {
             main.style.cssText = 'transform: translateX(-200px); '
             main.style.cssText = 'padding-left: 80px;'
             sidebar.style.cssText = 'max-width: 80px; min-width: 80px; background:#212121'
-            // 사이드바 줄어든 만큼 다시 body width 늘리기 70px
+            // 줄어든 사이드바의 길이는 70px이므로 body는 너비가 70px을 뺀 100%로 설정
             document.querySelector('body').style.width = 'calc(100% - 70px)'
-
+            // 사이드바에 a 태그들 감추기
             aTagsInSidebar.forEach(el => {
                 el.style.cssText = 'display: none;'
             })
@@ -100,9 +131,8 @@ sidebar_toggle.addEventListener('click', (event) => {
         setTimeout(() => {
             sidebar_toggle.id = 'side-bar-toggle'
         }, 400);
-        
-    } else {
-        // 사이드바 나오기
+    // 사이드바 나오기
+    } else {    // else ; 사이드바가 들어간 상태이면
         i++
         const main = document.querySelector('main');
         const sidebar = document.getElementById('side-bar');
@@ -111,6 +141,7 @@ sidebar_toggle.addEventListener('click', (event) => {
         const aTagsInSidebar = event.target.parentNode.parentNode.querySelectorAll('a')
         // sidebar.style.cssText = 'transform: translateX(40px)'
         main.style.cssText = 'padding-left: 250px;'
+        // setTimeout 400ms로 설정하여 좀 더 다이나믹한 애니메이션 구현
         setTimeout(() => {
             sidebar.style.background = '#3a4042'
             logo_aTag.style.display = 'block'
@@ -118,13 +149,13 @@ sidebar_toggle.addEventListener('click', (event) => {
                 a.style.display = 'block'
             })
             sidebar.style.minWidth = '250px';sidebar.style.maxnWidth = '250px';sidebar.style.width = '250px';sidebar.style.position = 'fixed;'
+            // body는 100%에서 사이드바의 사이즈 250px 만큼 빼서 100%로 구현
             document.querySelector('body').style.width = 'calc(100% - 250px)'
             }, 200);
         setTimeout(() => {
             sidebar_toggle.id = 'side-bar-toggle1'
         }, 400);
         }
-        
     }
 )
 
@@ -133,147 +164,109 @@ sidebar_toggle.addEventListener('click', (event) => {
 */
 const arrows = document.querySelectorAll('.arrow.div1');
 const container = document.getElementById('trending-cards-container');
+// 카드 컨테이너의 너비 산출
 let cardWidth = container.offsetWidth;
-console.log(cardWidth)
 arrows.forEach(arrow => {
   arrow.addEventListener('click', () => {
+    // arrow에 next란 클래스이름이 들어가면 즉, 오른쪽 화살표 아이콘을 누르면 scrollAmount는 카드 컨테이너의 너비 만큼 설정한다. 이는 오른쪽 화살표를 눌렀을 때 카드들이 화면의 너비 만큼 이동하기 위해서이다. 그렇지않으면(else) 너비를 음수로 설정하여 반대편으로 이동하여 전의 카드를 다시 보여주게끔 설정한다.
     const scrollAmount = arrow.classList.contains('next') ? container.offsetWidth : -container.offsetWidth;
+    // 현재 스크롤된 왼쪽 위치를 저장
     const scrollLeft = container.scrollLeft;
     const targetScrollLeft = scrollLeft + scrollAmount;
-    const duration = 500; // 애니메이션 지속 시간 (밀리초)
-    const startTime = performance.now();
-
+    const duration = 1000; // 애니메이션 지속 시간 (ms)
+    const startTime = performance.now(); // 애니메이션 시작 시간을 기록
     function scrollAnimation(currentTime) {
-      const elapsedTime = currentTime - startTime;
+      const elapsedTime = currentTime - startTime; // 경과 시간: 현재 시간과 시작 시간의 차이를 기록
+      // 애니메이션 지속 시간을 경과 시간으로 나눈 값이 항상 1보다 작게 만들기 위해 min함수에 두 번째 매개변수로 1을 둔다.
       const scrollProgress = Math.min(elapsedTime / duration, 1);
       const easedProgress = easeInOutCubic(scrollProgress);
       const newScrollLeft = scrollLeft + scrollAmount * easedProgress;
-      
       container.scrollLeft = newScrollLeft;
-
       if (scrollProgress < 1) {
         requestAnimationFrame(scrollAnimation);
       }
     }
-
     requestAnimationFrame(scrollAnimation);
   });
 });
-
 // Cubic easing function (https://easings.net/)
 function easeInOutCubic(t) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
-// 
-// 화살표를 클릭하면 콘텐츠가 더 나오는 함수 종료
-// 
 
-// SECTION2 DIV2 화살표 함수
+/**
+* 화살표를 클릭하면 콘텐츠가 더 나오는 함수 SECTION 2에 두 번째 div
+*/
 const arrows2 = document.querySelectorAll('.arrow.div2');
 const container2 = document.getElementById('trending-tv-cards-container');
 let cardWidth2 = container2.offsetWidth;
-
 arrows2.forEach(arrow => {
   arrow.addEventListener('click', () => {
     const scrollAmount = arrow.classList.contains('next') ? container2.offsetWidth : -container2.offsetWidth;
     const scrollLeft = container2.scrollLeft;
     const targetScrollLeft = scrollLeft + scrollAmount;
-    const duration = 500; // 애니메이션 지속 시간 (밀리초)
+    const duration = 1000; // 애니메이션 지속 시간 (밀리초)
     const startTime = performance.now();
-
     function scrollAnimation(currentTime) {
       const elapsedTime = currentTime - startTime;
       const scrollProgress = Math.min(elapsedTime / duration, 1);
       const easedProgress = easeInOutCubic(scrollProgress);
       const newScrollLeft = scrollLeft + scrollAmount * easedProgress;
-      
       container2.scrollLeft = newScrollLeft;
-
       if (scrollProgress < 1) {
         requestAnimationFrame(scrollAnimation);
       }
     }
-
     requestAnimationFrame(scrollAnimation);
   });
 });
 
 
-//
-
-// SECTION2 DIV3 화살표 함수
+/**
+* 화살표를 클릭하면 콘텐츠가 더 나오는 함수 SECTION 2에 세 번째 div
+*/
 const arrows3 = document.querySelectorAll('.arrow.div3');
 const container3 = document.getElementById('trending-people-cards-container');
 let cardWidth3 = container3.offsetWidth;
-
 arrows3.forEach(arrow => {
   arrow.addEventListener('click', () => {
     const scrollAmount = arrow.classList.contains('next') ? container3.offsetWidth : -container3.offsetWidth;
     const scrollLeft = container3.scrollLeft;
     const targetScrollLeft = scrollLeft + scrollAmount;
-    const duration = 500; // 애니메이션 지속 시간 (밀리초)
+    const duration = 1000; // 애니메이션 지속 시간 (밀리초)
     const startTime = performance.now();
-
     function scrollAnimation(currentTime) {
       const elapsedTime = currentTime - startTime;
       const scrollProgress = Math.min(elapsedTime / duration, 1);
       const easedProgress = easeInOutCubic(scrollProgress);
       const newScrollLeft = scrollLeft + scrollAmount * easedProgress;
-      
       container3.scrollLeft = newScrollLeft;
-
       if (scrollProgress < 1) {
         requestAnimationFrame(scrollAnimation);
       }
     }
-
     requestAnimationFrame(scrollAnimation);
   });
 });
+// 화살표를 클릭하면 콘텐츠가 더 나오는 함수 종료 // // // // // // // // //
 
 
-//
-
-
-document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('Button-add-to-favorite')) {
-        const btn = e.target;
-        if (btn.classList.contains('liked')) {
-            btn.classList.remove('liked');
-        } else {
-            btn.classList.add('liked');
-        }
-    }
-});
-
-const section1 = document.getElementById('section1');
-if (section1) {
-    document.getElementById('home').src = 'static/imgs/home_current.png'
-    document.getElementById('home').parentNode.querySelector('a').style.color = '#8ecccc'
-}
-
-logo.addEventListener('mouseenter', () => {
-    logo.src = 'static/imgs/logo_colored.png'
-})
-logo.addEventListener('mouseleave', () => {
-    logo.src = 'static/imgs/logo.png'
-})
-
-
-const muteBtn = document.getElementById('main-mute')
-const muteBtn1 = document.getElementById('main-mute1')
 /**
  * main mute 버튼 호버 동작 설정
  * @param {mute_button} target
  * @returns {change_opacity}
  *  */ 
-function muteBtnHover(target) {
+function muteBtnHover(target) { // 음소거 버튼 호버시에 투명도 1로 하여 잘 보이게 설정
     target.style.opacity = 1
 }
-function muteBtnHoverAway(target) {
+function muteBtnHoverAway(target) { // 마우스가 벗어나면 영상에 집중하게끔 투명도를 40%로 설정
     target.style.opacity = 0.4
 }
 
+/**
+ * @param {HTMLElement} muteBtn - Mute button element
+ * 음소거 버튼이 있는지 파악해서 호버 이벤트를 주기
+ */
 if (muteBtn) {
     muteBtn.addEventListener('mouseenter', () => muteBtnHover(muteBtn))
     muteBtn.addEventListener('mouseleave', () => muteBtnHoverAway(muteBtn))

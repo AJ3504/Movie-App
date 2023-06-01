@@ -4,6 +4,10 @@ import { POPULAR_TVS } from './tv_list.mjs'
 import PEOPLE_INFO from './people_list.mjs'
 // Global Variable
 let YOUTUBE_TEMP_KEY = [];
+let j = 0; // 검색창이 안 나와있으면 0, 나와있으면 1
+const NAMES_OF_MOVIES_TVS = [];
+const searchInput = document.getElementById('search-area'); // 검색창 input
+const search_icon = document.getElementById('search-icon'); // 헤더 검색 아이콘
 
 /**
  * TMDB 기본 키와 URL 작업
@@ -56,6 +60,7 @@ function playYouTubeVideo(videoKey) {
             fs: 1,
             cc_load_policy: 0,
             disablekb: 1,
+            rel: 0
         },
         events: {
             onReady: onPlayerReady,
@@ -94,19 +99,15 @@ function playYouTubeVideo(videoKey) {
  * 영상을 다른걸로 틀기
 */ 
 export function onYouTubePlayerError(event) {
-    // 오류 처리 로직을 추가하거나 오류 메시지를 표시하는 등의 작업 수행
     let length;
-    // 이렇게 함으로써 리스트의 새로운 마지막 요소를 재생할 수 있게 된다.
+    // 기존의 영상 키들이 있는 배열에서 마지막요소를 재생한다고 movie_list.mjs에서 설명한 바 있다.
+    // 이 배열에서 pop 메소드를 사용하여 마지막 요소 즉, 재생이 안되는 요소를 없애버리고 다시 그 다음 마지막 영상을 재생하게 한다. 이렇게 함으로써 리스트의 새로운 마지막 요소를 재생할 수 있게 된다.
     YOUTUBE_TEMP_KEY.pop();
     length = YOUTUBE_TEMP_KEY.length
     const TRAILER_KEY = YOUTUBE_TEMP_KEY[length-1]
     playYouTubeVideo(TRAILER_KEY);
-  }
+}
   
-
-
-
-
 /**
  * 카드 클릭시 화면 나오게 하기
  *  TRENDING MOVIE
@@ -138,35 +139,33 @@ document.addEventListener('click', (e) => {
             document.getElementById('modal-genres').innerText = ''
         }
 
-
-        if (selectedMovie.popularity < 1000) {
+        // 현재 인기도를 상태바로 만들어 눈으로 보기쉽게 표현한다.
+        if (selectedMovie.popularity < 500) {
             progressBar.style.width = '15%'
-        } else if (selectedMovie.popularity < 1300) {
+        } else if (selectedMovie.popularity < 900) {
             progressBar.style.width = '25%'
-        } else if (selectedMovie.popularity < 1500) {
+        } else if (selectedMovie.popularity < 1000) {
             progressBar.style.width = '35%'
-        } else if (selectedMovie.popularity < 1700) {
+        } else if (selectedMovie.popularity < 1300) {
             progressBar.style.width = '45%'
-        } else if (selectedMovie.popularity < 1900) {
+        } else if (selectedMovie.popularity < 1500) {
             progressBar.style.width = '55%'
-        } else if (selectedMovie.popularity < 2300) {
+        } else if (selectedMovie.popularity < 1800) {
             progressBar.style.width = '65%'
-        } else if (selectedMovie.popularity < 2800) {
+        } else if (selectedMovie.popularity < 2000) {
             progressBar.style.width = '75%'
-        } else if (selectedMovie.popularity < 3500) {
+        } else if (selectedMovie.popularity < 2500) {
             progressBar.style.width = '80%'
-        } else if (selectedMovie.popularity < 4200) {
+        } else if (selectedMovie.popularity < 2800) {
             progressBar.style.width = '90%'
-        } else if (selectedMovie.popularity < 5000) {
+        } else if (selectedMovie.popularity < 3000) {
             progressBar.style.width = '95%'
-        } else if (selectedMovie.popularity >= 5000) {
+        } else if (selectedMovie.popularity >= 3500) {
             progressBar.style.width = '100%'
         }
 
-
-
-
-        // rate
+        // 데이터베이스에서 받은 평점은 10점 만점으로 나옴으로 나누기 2를 해서 별 다섯 개가 만점인 기준으로 표현한다.
+        // 5점 만점에 n점인지에 따라 별점 아이콘이 어떤것이 될지 결정한다.
         const rate = selectedMovie.rate/2
         const rate_1 = document.getElementById('modal-rate-1')
         const rate_2 = document.getElementById('modal-rate-2')
@@ -292,27 +291,27 @@ document.addEventListener('click', (e) => {
         }
 
 
-        if (selectedMovie.popularity < 1000) {
+        if (selectedMovie.popularity < 500) {
             progressBar.style.width = '15%'
-        } else if (selectedMovie.popularity < 1300) {
+        } else if (selectedMovie.popularity < 900) {
             progressBar.style.width = '25%'
-        } else if (selectedMovie.popularity < 1500) {
+        } else if (selectedMovie.popularity < 1000) {
             progressBar.style.width = '35%'
-        } else if (selectedMovie.popularity < 1700) {
+        } else if (selectedMovie.popularity < 1300) {
             progressBar.style.width = '45%'
-        } else if (selectedMovie.popularity < 1900) {
+        } else if (selectedMovie.popularity < 1500) {
             progressBar.style.width = '55%'
-        } else if (selectedMovie.popularity < 2300) {
+        } else if (selectedMovie.popularity < 1800) {
             progressBar.style.width = '65%'
-        } else if (selectedMovie.popularity < 2800) {
+        } else if (selectedMovie.popularity < 2000) {
             progressBar.style.width = '75%'
-        } else if (selectedMovie.popularity < 3500) {
+        } else if (selectedMovie.popularity < 2500) {
             progressBar.style.width = '80%'
-        } else if (selectedMovie.popularity < 4200) {
+        } else if (selectedMovie.popularity < 2800) {
             progressBar.style.width = '90%'
-        } else if (selectedMovie.popularity < 5000) {
+        } else if (selectedMovie.popularity < 3000) {
             progressBar.style.width = '95%'
-        } else if (selectedMovie.popularity >= 5000) {
+        } else if (selectedMovie.popularity >= 3500) {
             progressBar.style.width = '100%'
         }
 
@@ -395,7 +394,7 @@ document.addEventListener('click', (e) => {
             rate_5.src = 'static/imgs/rate.png'
         } 
         //
-        player.pauseVideo()
+        // player.pauseVideo()
         document.getElementById('player').style.opacity = '0'
         // 영화 틀기
         fetch(`https://api.themoviedb.org/3/tv/${selectedMovie.id}/videos`, options)
@@ -435,30 +434,21 @@ document.addEventListener('click', (e) => {
 
 
 
+// 모달창 기능은 이제 끝
+// // // // // // // // // // // // // // // // // // // // // // // //
+// 밑에서 부터 검색 화면 기능 
 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
 
-// 
-// 
-// 
-// 
-
+/**
+ * 
+ * 검색 화면 기능 
+ */
+// NAMES_OF_MOVIES_TVS는 검색 바탕이 될 객체로 fetch한 영화와 tv정보들이 들어있다.
 function searchOn() {
-
-    if (!NAMES_OF_MOVIES_TVS.length) {
-        POPULAR_MOVIES.forEach(el => {
+    if (!NAMES_OF_MOVIES_TVS.length) { // NAMES_OF_MOVIES_TVS가 비어있으면, 채우기 함수
+        // movie_list.mjs에서 불러온 POPULAR_MOVIES를 NAMES_OF_MOVIES_TVS에 채우기
+        // 맨위의 import POPULAR_MOVIES from './movie_list.mjs'
+        POPULAR_MOVIES.forEach(el => {  
             NAMES_OF_MOVIES_TVS.push({
                 'type': 'movie',
                 'id': el.id,
@@ -469,6 +459,8 @@ function searchOn() {
                 'genre': el.genre[0]
             })
         })
+        // tv_list.mjs에서 불러온 POPULAR_MOVIES를 NAMES_OF_MOVIES_TVS에 채우기
+        // 맨위의 import { POPULAR_TVS } from './tv_list.mjs'
         POPULAR_TVS.forEach(el => {
             NAMES_OF_MOVIES_TVS.push({
                 'type': 'tv',
@@ -481,21 +473,21 @@ function searchOn() {
             })
         })
     }
-    if (j === 0) {
-        searchInput.focus();
+    if (j === 0) { // 검색창이 안 나와있으면
+        searchInput.focus(); // input에 포커스 준 상태로 나오게하기
         document.querySelector('#search-container').style.opacity = 1
         document.querySelector('#search-container').style.zIndex = 11
-        j += 1
+        j += 1 // 검색창 전역 변수 j 를 1로 설정 (1: 나왔다. 0: 들어갔다.)
     } else if (j === 1) {
         document.querySelector('#search-container').style.opacity = 0
         document.querySelector('#search-container').style.zIndex = 0
         j -= 1
-        document.getElementById('search-area').value = ''
-        deleteSearchResult();
+        document.getElementById('search-area').value = '' // 들어갈 때 input을 초기화
+        deleteSearchResult(); // 검색 결과를 초기화
     }
 }
 document.addEventListener('keydown', function(event) {
-    if (event.altKey) {
+    if (event.altKey) { // option + s(윈도우는 alt + s)를 누르면 검색창이 나오게 설정
       if (String.fromCharCode(event.which).toLowerCase() === 's') {
         event.preventDefault(); // 이 부분은 선택적입니다. 기존에 존재하는 다른 기능과 충돌이 생길 수 있기 때문입니다.
         // 원하는 동작을 수행합니다.
@@ -514,9 +506,10 @@ document.addEventListener('keydown', function(event) {
       }
     }
   });
-  
-let j = 0;
-const NAMES_OF_MOVIES_TVS = [];
+
+
+// 검색 결과창 초기화 함수
+// 반복문으로 해당 영역을 다 삭제하기
 function deleteSearchResult() {
     while (document.getElementById('search-result').firstChild) {
         document.getElementById('search-result').removeChild(document.getElementById('search-result').firstChild);
@@ -524,11 +517,12 @@ function deleteSearchResult() {
     document.getElementById('search-result').style.opacity = 0;
     document.getElementById('search-result').style.zIndex = -1;
 }
+// 홈페이지 헤더에 돋보기 아이콘 클릭하면 검색 함수 실행
 document.querySelector('#search-home').addEventListener('click', () => {
     searchOn();
 })
 
-const searchInput = document.getElementById('search-area');
+
 
 // 검색 결과
 searchInput.addEventListener("keydown", function(event) {
@@ -537,18 +531,19 @@ searchInput.addEventListener("keydown", function(event) {
         document.getElementById('search-container').style.background = '#eeeeeedd'
     // 검색창에 아무거나 써져있으면 검색창 배경색을 바꿈
     } else if (!searchInput.value) {
-        document.getElementById('search-container').style.background = '#c0c0c0dd'
+        document.getElementById('search-container').style.background = '#c0c0c0ee'
     }
     // 엔터를 누르면 돋보기 아이콘 무빙 주기
     // 엔터 누르면 검색창의 값과 타이틀의 값을 비교해서 일치하는 값 표출하기
     if (event.key === "Enter") {
         search_icon.src = 'static/imgs/search-animated.gif'
-        const TYPED_WORDS = searchInput.value.toUpperCase();
+        const TYPED_WORDS = searchInput.value.toUpperCase(); // 대소문자 구분을 없애기 위해 검색값을 모두 대문자로 바꾸기
+        // 영화와 TV 목록들과 <---> 검색값을 비교하기 
         for (let i = 0; i < NAMES_OF_MOVIES_TVS.length-1; i++) {
             for (let j = 0; j < NAMES_OF_MOVIES_TVS[i].title_arr.length; j++) {
                 // 검색값이 비교값과 일치하는게 없으면 그만두기
                 if (!NAMES_OF_MOVIES_TVS[i].title_arr[j].includes(TYPED_WORDS)) {
-                    // 다시 해보기;;;
+                    //
                 // 검색값이 비교값과 일치하는게 있으면 검색창 아래 결과창을 만들어 띄우기
                 } else {
                     document.getElementById('search-result').style.opacity = 1;
@@ -629,8 +624,8 @@ document.getElementById('close-search').addEventListener('click', () => {
     document.getElementById('search-area').value = ''
     deleteSearchResult();
 })
-const search_icon = document.getElementById('search-icon');
 
+// 검색창 아이콘 호버시 효과
 search_icon.addEventListener('mouseenter', () => {
     search_icon.src = 'static/imgs/search-animated.gif'
     document.getElementById('search-container').style.background = '#eeeeeedd'
@@ -662,9 +657,6 @@ document.addEventListener('click', (e) => {
         }
     }
 })
-
-
-// e.style.background = '#5a88e3dd'
 
 // SEARCH LIST HOVER EVENT
 document.addEventListener('mouseover', (e) => {
@@ -735,27 +727,27 @@ function moviePlayOnSearchResult(id) {
         }
 
 
-        if (selectedMovie.popularity < 1000) {
+        if (selectedMovie.popularity < 500) {
             progressBar.style.width = '15%'
-        } else if (selectedMovie.popularity < 1300) {
+        } else if (selectedMovie.popularity < 900) {
             progressBar.style.width = '25%'
-        } else if (selectedMovie.popularity < 1500) {
+        } else if (selectedMovie.popularity < 1000) {
             progressBar.style.width = '35%'
-        } else if (selectedMovie.popularity < 1700) {
+        } else if (selectedMovie.popularity < 1300) {
             progressBar.style.width = '45%'
-        } else if (selectedMovie.popularity < 1900) {
+        } else if (selectedMovie.popularity < 1500) {
             progressBar.style.width = '55%'
-        } else if (selectedMovie.popularity < 2300) {
+        } else if (selectedMovie.popularity < 1800) {
             progressBar.style.width = '65%'
-        } else if (selectedMovie.popularity < 2800) {
+        } else if (selectedMovie.popularity < 2000) {
             progressBar.style.width = '75%'
-        } else if (selectedMovie.popularity < 3500) {
+        } else if (selectedMovie.popularity < 2500) {
             progressBar.style.width = '80%'
-        } else if (selectedMovie.popularity < 4200) {
+        } else if (selectedMovie.popularity < 2800) {
             progressBar.style.width = '90%'
-        } else if (selectedMovie.popularity < 5000) {
+        } else if (selectedMovie.popularity < 3000) {
             progressBar.style.width = '95%'
-        } else if (selectedMovie.popularity >= 5000) {
+        } else if (selectedMovie.popularity >= 3500) {
             progressBar.style.width = '100%'
         }
 
@@ -888,27 +880,27 @@ function tvPlayOnSearchResult(id) {
     }
 
 
-    if (selectedMovie.popularity < 1000) {
+    if (selectedMovie.popularity < 500) {
         progressBar.style.width = '15%'
-    } else if (selectedMovie.popularity < 1300) {
+    } else if (selectedMovie.popularity < 900) {
         progressBar.style.width = '25%'
-    } else if (selectedMovie.popularity < 1500) {
+    } else if (selectedMovie.popularity < 1000) {
         progressBar.style.width = '35%'
-    } else if (selectedMovie.popularity < 1700) {
+    } else if (selectedMovie.popularity < 1300) {
         progressBar.style.width = '45%'
-    } else if (selectedMovie.popularity < 1900) {
+    } else if (selectedMovie.popularity < 1500) {
         progressBar.style.width = '55%'
-    } else if (selectedMovie.popularity < 2300) {
+    } else if (selectedMovie.popularity < 1800) {
         progressBar.style.width = '65%'
-    } else if (selectedMovie.popularity < 2800) {
+    } else if (selectedMovie.popularity < 2000) {
         progressBar.style.width = '75%'
-    } else if (selectedMovie.popularity < 3500) {
+    } else if (selectedMovie.popularity < 2500) {
         progressBar.style.width = '80%'
-    } else if (selectedMovie.popularity < 4200) {
+    } else if (selectedMovie.popularity < 2800) {
         progressBar.style.width = '90%'
-    } else if (selectedMovie.popularity < 5000) {
+    } else if (selectedMovie.popularity < 3000) {
         progressBar.style.width = '95%'
-    } else if (selectedMovie.popularity >= 5000) {
+    } else if (selectedMovie.popularity >= 3500) {
         progressBar.style.width = '100%'
     }
 
