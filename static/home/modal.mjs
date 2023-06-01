@@ -1,7 +1,7 @@
+// modal and search related functions
 import POPULAR_MOVIES from './movie_list.mjs'
 import { POPULAR_TVS } from './tv_list.mjs'
 import PEOPLE_INFO from './people_list.mjs'
-
 // Global Variable
 let YOUTUBE_TEMP_KEY = [];
 
@@ -24,7 +24,7 @@ const options = {
   };
 
 
-// 동영상 가져오기 해보기
+// 동영상 가져오기
 let player;
 function playYouTubeVideo(videoKey) {
     if (player) {
@@ -93,16 +93,13 @@ function playYouTubeVideo(videoKey) {
  * 유튜브 에러 나면 ?
  * 영상을 다른걸로 틀기
 */ 
-function onYouTubePlayerError(event) {
+export function onYouTubePlayerError(event) {
     // 오류 처리 로직을 추가하거나 오류 메시지를 표시하는 등의 작업 수행
-    console.log("ERROR ERROR ERROR! LET'S CHANGE THE VIDEO!")
     let length;
     // 이렇게 함으로써 리스트의 새로운 마지막 요소를 재생할 수 있게 된다.
     YOUTUBE_TEMP_KEY.pop();
     length = YOUTUBE_TEMP_KEY.length
     const TRAILER_KEY = YOUTUBE_TEMP_KEY[length-1]
-    console.log(YOUTUBE_TEMP_KEY)
-    console.log(TRAILER_KEY)
     playYouTubeVideo(TRAILER_KEY);
   }
   
@@ -137,6 +134,9 @@ document.addEventListener('click', (e) => {
         const progressBar = document.querySelector('.progress')
         document.getElementById('release-date').innerText = selectedMovie['release date']
         document.getElementById('modal-genres').innerText = `${selectedMovie.genre[0]}, ${selectedMovie.genre[1]}`
+        if (!document.getElementById('modal-genres').innerText) {
+            document.getElementById('modal-genres').innerText = ''
+        }
 
 
         if (selectedMovie.popularity < 1000) {
@@ -248,11 +248,9 @@ document.addEventListener('click', (e) => {
                 .then(res => res.json())
                 .then(res => {
                     const index = res.results.length;
-                    console.log(res.results)
                     res.results.forEach(element => {
                         YOUTUBE_TEMP_KEY.push(element.key)
                     });
-                    console.log(YOUTUBE_TEMP_KEY)
                     // 유튜브 영상 키
                     // const TRAILER_KEY = res.results[index-1].key
                     const TRAILER_KEY = YOUTUBE_TEMP_KEY[index-1]
@@ -289,6 +287,9 @@ document.addEventListener('click', (e) => {
         document.getElementById('release-date-h3').innerText = 'First Air Date'
         document.getElementById('release-date').innerText = selectedMovie['first_air_date']
         document.getElementById('modal-genres').innerText = `${selectedMovie.genre[0]}, ${selectedMovie.genre[1]}`
+        if (!document.getElementById('modal-genres').innerText) {
+            document.getElementById('modal-genres').innerText = ''
+        }
 
 
         if (selectedMovie.popularity < 1000) {
@@ -394,17 +395,16 @@ document.addEventListener('click', (e) => {
             rate_5.src = 'static/imgs/rate.png'
         } 
         //
-        
+        player.pauseVideo()
+        document.getElementById('player').style.opacity = '0'
         // 영화 틀기
         fetch(`https://api.themoviedb.org/3/tv/${selectedMovie.id}/videos`, options)
                 .then(res => res.json())
                 .then(res => {
                     const index = res.results.length;
-                    console.log(res.results)
                     res.results.forEach(element => {
                         YOUTUBE_TEMP_KEY.push(element.key)
                     });
-                    console.log(YOUTUBE_TEMP_KEY)
                     // 유튜브 영상 키
                     // const TRAILER_KEY = res.results[index-1].key
                     const TRAILER_KEY = YOUTUBE_TEMP_KEY[index-1]
@@ -432,3 +432,579 @@ document.addEventListener('click', (e) => {
     if (e.target.classList.contains("trending-people")) {
         console.log(PEOPLE_INFO)
     }})
+
+
+
+
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+
+// 
+// 
+// 
+// 
+
+function searchOn() {
+
+    if (!NAMES_OF_MOVIES_TVS.length) {
+        POPULAR_MOVIES.forEach(el => {
+            NAMES_OF_MOVIES_TVS.push({
+                'type': 'movie',
+                'id': el.id,
+                'title': el.title,
+                'title_arr': el.title.toUpperCase().split(' '),
+                'poster': el.poster,
+                'year': el.year,
+                'genre': el.genre[0]
+            })
+        })
+        POPULAR_TVS.forEach(el => {
+            NAMES_OF_MOVIES_TVS.push({
+                'type': 'tv',
+                'id': el.id,
+                'title': el.title,
+                'title_arr': el.title.toUpperCase().split(' '),
+                'poster': el.poster,
+                'year': el.year,
+                'genre': el.genre[0]
+            })
+        })
+    }
+    if (j === 0) {
+        searchInput.focus();
+        document.querySelector('#search-container').style.opacity = 1
+        document.querySelector('#search-container').style.zIndex = 11
+        j += 1
+    } else if (j === 1) {
+        document.querySelector('#search-container').style.opacity = 0
+        document.querySelector('#search-container').style.zIndex = 0
+        j -= 1
+        document.getElementById('search-area').value = ''
+        deleteSearchResult();
+    }
+}
+document.addEventListener('keydown', function(event) {
+    if (event.altKey) {
+      if (String.fromCharCode(event.which).toLowerCase() === 's') {
+        event.preventDefault(); // 이 부분은 선택적입니다. 기존에 존재하는 다른 기능과 충돌이 생길 수 있기 때문입니다.
+        // 원하는 동작을 수행합니다.
+        if (j) {
+            document.querySelector('#search-container').style.opacity = 0
+            document.querySelector('#search-container').style.zIndex = -1
+            j = 0
+        } else if (!j) {
+            searchOn();
+            searchInput.focus();
+            document.querySelector('#search-container').style.opacity = 1
+            document.querySelector('#search-container').style.zIndex = 11
+            j += 1
+        }
+        
+      }
+    }
+  });
+  
+let j = 0;
+const NAMES_OF_MOVIES_TVS = [];
+function deleteSearchResult() {
+    while (document.getElementById('search-result').firstChild) {
+        document.getElementById('search-result').removeChild(document.getElementById('search-result').firstChild);
+    }
+    document.getElementById('search-result').style.opacity = 0;
+    document.getElementById('search-result').style.zIndex = -1;
+}
+document.querySelector('#search-home').addEventListener('click', () => {
+    searchOn();
+})
+
+const searchInput = document.getElementById('search-area');
+
+// 검색 결과
+searchInput.addEventListener("keydown", function(event) {
+    // 검색창이 비어있으면, 검색창 배경색을 기본값으로 설정
+    if (searchInput.value) {
+        document.getElementById('search-container').style.background = '#eeeeeedd'
+    // 검색창에 아무거나 써져있으면 검색창 배경색을 바꿈
+    } else if (!searchInput.value) {
+        document.getElementById('search-container').style.background = '#c0c0c0dd'
+    }
+    // 엔터를 누르면 돋보기 아이콘 무빙 주기
+    // 엔터 누르면 검색창의 값과 타이틀의 값을 비교해서 일치하는 값 표출하기
+    if (event.key === "Enter") {
+        search_icon.src = 'static/imgs/search-animated.gif'
+        const TYPED_WORDS = searchInput.value.toUpperCase();
+        for (let i = 0; i < NAMES_OF_MOVIES_TVS.length-1; i++) {
+            for (let j = 0; j < NAMES_OF_MOVIES_TVS[i].title_arr.length; j++) {
+                // 검색값이 비교값과 일치하는게 없으면 그만두기
+                if (!NAMES_OF_MOVIES_TVS[i].title_arr[j].includes(TYPED_WORDS)) {
+                    // 다시 해보기;;;
+                // 검색값이 비교값과 일치하는게 있으면 검색창 아래 결과창을 만들어 띄우기
+                } else {
+                    document.getElementById('search-result').style.opacity = 1;
+                    document.getElementById('search-result').style.zIndex = 11;
+                    // 
+                    // 
+                    const searchSection = document.getElementById('search-result');
+
+                    const searchResultInnerContainer = document.createElement('div');
+                    searchResultInnerContainer.className = `search-result-inner-container`;
+                    searchResultInnerContainer.setAttribute('_id', NAMES_OF_MOVIES_TVS[i].id);
+                    searchResultInnerContainer.setAttribute('type', NAMES_OF_MOVIES_TVS[i].type);
+
+                    const searchResultInnerContainerLeftDiv = document.createElement('div');
+                    searchResultInnerContainerLeftDiv.className = 'search-result-inner-container-left-div';
+
+                    const searchResultPoster = document.createElement('img');
+                    searchResultPoster.className = 'search-result-poster';
+                    searchResultPoster.src = NAMES_OF_MOVIES_TVS[i].poster;
+                    searchResultPoster.alt = `movie poster ${i}: movie title: ${NAMES_OF_MOVIES_TVS[i].title}`;
+
+                    const searchResultInnerContainerRightDiv = document.createElement('div');
+                    searchResultInnerContainerRightDiv.className = 'search-result-inner-container-right-div';
+
+                    const searchResultMovieTitle = document.createElement('h2');
+                    searchResultMovieTitle.className = 'search-result-movie-title';
+                    searchResultMovieTitle.innerText = NAMES_OF_MOVIES_TVS[i].title;
+
+                    const searchRerultMovieOtherInfo = document.createElement('div');
+                    searchRerultMovieOtherInfo.className = 'search-result-other-info-container';
+
+                    const searchResultMovieYear = document.createElement('h3');
+                    searchResultMovieYear.className = 'search-result-movie-year';
+                    searchResultMovieYear.innerText = NAMES_OF_MOVIES_TVS[i].year;
+
+                    const searchResultMovieGenre = document.createElement('p');
+                    searchResultMovieGenre.className = 'search-result-movie-genre';
+                    searchResultMovieGenre.innerText = NAMES_OF_MOVIES_TVS[i].genre;
+
+                    searchResultInnerContainerLeftDiv.appendChild(searchResultPoster);
+                    searchResultInnerContainerRightDiv.appendChild(searchResultMovieTitle);
+                    searchResultInnerContainerRightDiv.appendChild(searchRerultMovieOtherInfo);
+                    searchRerultMovieOtherInfo.appendChild(searchResultMovieYear);
+                    searchRerultMovieOtherInfo.appendChild(searchResultMovieGenre);
+
+                    searchResultInnerContainer.appendChild(searchResultInnerContainerLeftDiv);
+                    searchResultInnerContainer.appendChild(searchResultInnerContainerRightDiv);
+
+                    searchSection.appendChild(searchResultInnerContainer);
+                }
+            }
+        } 
+    }
+    // 지우기 누르면 돋보기 애니메이션 끄기
+    if (event.key === "Delete" || event.key === "Backspace") {
+        search_icon.src = 'static/imgs/search-black.png'
+        // 검색 결과 목록도 다 지우기
+        deleteSearchResult();
+    }
+    // show 누르고 엔터 치면 리스트 보이게하는 함수
+    if (event.key === "Enter" && searchInput.value === 'show') {
+        console.log(NAMES_OF_MOVIES_TVS)
+    }
+    // ESC 누르면 검색창 사라지게 하기
+    if (event.key === "Escape") {
+        document.querySelector('#search-container').style.opacity = 0
+        document.querySelector('#search-container').style.zIndex = 0
+        j -= 1
+        search_icon.src = 'static/imgs/search-black.png'
+        document.getElementById('search-result').style.opacity = 0;
+        document.getElementById('search-result').style.zIndex = -1;
+        document.getElementById('search-area').value = ''
+        deleteSearchResult();
+    }
+  });
+  // 검색창에서 x 버튼 누르면 지워지는 기능
+document.getElementById('close-search').addEventListener('click', () => {
+    document.getElementById('search-area').value = ''
+    deleteSearchResult();
+})
+const search_icon = document.getElementById('search-icon');
+
+search_icon.addEventListener('mouseenter', () => {
+    search_icon.src = 'static/imgs/search-animated.gif'
+    document.getElementById('search-container').style.background = '#eeeeeedd'
+
+})
+search_icon.addEventListener('mouseleave', () => {
+    search_icon.src = 'static/imgs/search-black.png'
+    document.getElementById('search-container').style.background = '#c0c0c0dd'
+})
+
+// 카드 눌러서 모달 나올 때 검색창 켜져있으면 숨기기
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains("trending-movie")) {
+        if (j === 1) {
+            document.querySelector('#search-container').style.opacity = 0
+            document.querySelector('#search-container').style.zIndex = 0
+            j -= 1
+            document.getElementById('search-result').style.opacity = 0;
+            document.getElementById('search-result').style.zIndex = 0;
+        }
+        if (e.target.classList.contains("trending-tv")) {
+            if (j === 1) {
+                document.querySelector('#search-container').style.opacity = 0
+                document.querySelector('#search-container').style.zIndex = 0
+                j -= 1
+                document.getElementById('search-result').style.opacity = 0;
+                document.getElementById('search-result').style.zIndex = 0;
+            }
+        }
+    }
+})
+
+
+// e.style.background = '#5a88e3dd'
+
+// SEARCH LIST HOVER EVENT
+document.addEventListener('mouseover', (e) => {
+    if (e.target.classList.contains('search-result-inner-container')) {
+        e.target.style.background = '#5a88e3dd'
+    }})
+document.addEventListener('mouseout', (e) => {
+    if (e.target.classList.contains('search-result-inner-container')) {
+        e.target.style.background = '#c0c0c0dd'
+    }})
+
+// SEARCH LIST CLICK EVENT
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('search-result-inner-container')) {
+        const resultDiv = e.target;
+        const type = resultDiv.getAttribute('type')
+        const id = resultDiv.getAttribute('_id')
+        // IF MOVIE
+        if (type === 'movie') {
+            document.querySelector('#search-container').style.opacity = 0
+            document.querySelector('#search-container').style.zIndex = 0
+            j = 0;
+            document.getElementById('search-result').style.opacity = 0;
+            document.getElementById('search-result').style.zIndex = 0;
+            moviePlayOnSearchResult(id)
+        } 
+        // IF TV
+        else if (type === 'tv') {
+            document.querySelector('#search-container').style.opacity = 0
+            document.querySelector('#search-container').style.zIndex = 0
+            j = 0;
+            document.getElementById('search-result').style.opacity = 0;
+            document.getElementById('search-result').style.zIndex = 0;
+            tvPlayOnSearchResult(id);
+        }
+    }
+})
+
+
+
+
+
+// 영화였을때 함수
+function moviePlayOnSearchResult(id) {
+    document.querySelector('#MOTHER').style.opacity = '0.2'
+        const MODAL = document.getElementById('movie-info-container');
+        MODAL.style.opacity = 1;
+        MODAL.style.zIndex = 10;
+        const target_id = id;
+        let MATCHED_MOVIE_ID;
+        let selectedMovie;
+        for (let i = 0; i < POPULAR_MOVIES.length; i++) {
+            const movie = POPULAR_MOVIES[i]
+            if (target_id == movie.id) {
+                MATCHED_MOVIE_ID = movie.id
+                selectedMovie = movie
+                break;
+            }}
+        document.getElementById('modal-movie-title').innerText = selectedMovie.title
+        document.getElementById('modal-movie-year').innerText = selectedMovie.year
+        document.getElementById('modal-movie-genre').innerText = `${selectedMovie.genre[0]}, ${selectedMovie.genre[1]}`
+        document.getElementById('modal-movie-info').innerText = selectedMovie.overview
+        const progressBar = document.querySelector('.progress')
+        document.getElementById('release-date').innerText = selectedMovie['release date']
+        document.getElementById('modal-genres').innerText = `${selectedMovie.genre[0]}, ${selectedMovie.genre[1]}`
+        if (!document.getElementById('modal-genres').innerText) {
+            document.getElementById('modal-genres').innerText = ''
+        }
+
+
+        if (selectedMovie.popularity < 1000) {
+            progressBar.style.width = '15%'
+        } else if (selectedMovie.popularity < 1300) {
+            progressBar.style.width = '25%'
+        } else if (selectedMovie.popularity < 1500) {
+            progressBar.style.width = '35%'
+        } else if (selectedMovie.popularity < 1700) {
+            progressBar.style.width = '45%'
+        } else if (selectedMovie.popularity < 1900) {
+            progressBar.style.width = '55%'
+        } else if (selectedMovie.popularity < 2300) {
+            progressBar.style.width = '65%'
+        } else if (selectedMovie.popularity < 2800) {
+            progressBar.style.width = '75%'
+        } else if (selectedMovie.popularity < 3500) {
+            progressBar.style.width = '80%'
+        } else if (selectedMovie.popularity < 4200) {
+            progressBar.style.width = '90%'
+        } else if (selectedMovie.popularity < 5000) {
+            progressBar.style.width = '95%'
+        } else if (selectedMovie.popularity >= 5000) {
+            progressBar.style.width = '100%'
+        }
+
+
+
+
+        // rate
+        const rate = selectedMovie.rate/2
+        const rate_1 = document.getElementById('modal-rate-1')
+        const rate_2 = document.getElementById('modal-rate-2')
+        const rate_3 = document.getElementById('modal-rate-3')
+        const rate_4 = document.getElementById('modal-rate-4')
+        const rate_5 = document.getElementById('modal-rate-5')
+        
+        if (rate < 0.3) {
+            rate_1.src = 'static/imgs/null.png'
+            rate_2.src = 'static/imgs/null.png'
+            rate_3.src = 'static/imgs/null.png'
+            rate_4.src = 'static/imgs/null.png'
+            rate_5.src = 'static/imgs/null.png'
+        } else if (rate < 0.7) {
+            rate_1.src = 'static/imgs/rate_half.png'
+            rate_2.src = 'static/imgs/null.png'
+            rate_3.src = 'static/imgs/null.png'
+            rate_4.src = 'static/imgs/null.png'
+            rate_5.src = 'static/imgs/null.png'
+        } else if (rate < 1.2) {
+            rate_1.src = 'static/imgs/rate.png'
+            rate_2.src = 'static/imgs/null.png'
+            rate_3.src = 'static/imgs/null.png'
+            rate_4.src = 'static/imgs/null.png'
+            rate_5.src = 'static/imgs/null.png'
+        } else if (rate < 1.7) {
+            rate_1.src = 'static/imgs/rate.png'
+            rate_2.src = 'static/imgs/rate_half.png'
+            rate_3.src = 'static/imgs/null.png'
+            rate_4.src = 'static/imgs/null.png'
+            rate_5.src = 'static/imgs/null.png'
+        } else if (rate < 2.2) {
+            rate_1.src = 'static/imgs/rate.png'
+            rate_2.src = 'static/imgs/rate.png'
+            rate_3.src = 'static/imgs/null.png'
+            rate_4.src = 'static/imgs/null.png'
+            rate_5.src = 'static/imgs/null.png'
+        } else if (rate < 2.7) {
+            rate_1.src = 'static/imgs/rate.png'
+            rate_2.src = 'static/imgs/rate.png'
+            rate_3.src = 'static/imgs/rate_half.png'
+            rate_4.src = 'static/imgs/null.png'
+            rate_5.src = 'static/imgs/null.png'
+        } else if (rate < 3.2) {
+            rate_1.src = 'static/imgs/rate.png'
+            rate_2.src = 'static/imgs/rate.png'
+            rate_3.src = 'static/imgs/rate.png'
+            rate_4.src = 'static/imgs/null.png'
+            rate_5.src = 'static/imgs/null.png'
+        } else if (rate < 3.7) {
+            rate_1.src = 'static/imgs/rate.png'
+            rate_2.src = 'static/imgs/rate.png'
+            rate_3.src = 'static/imgs/rate.png'
+            rate_4.src = 'static/imgs/rate_half.png'
+            rate_5.src = 'static/imgs/null.png'
+        } else if (rate < 4.2) {
+            rate_1.src = 'static/imgs/rate.png'
+            rate_2.src = 'static/imgs/rate.png'
+            rate_3.src = 'static/imgs/rate.png'
+            rate_4.src = 'static/imgs/rate.png'
+            rate_5.src = 'static/imgs/null.png'
+        } else if (rate < 4.7) {
+            rate_1.src = 'static/imgs/rate.png'
+            rate_2.src = 'static/imgs/rate.png'
+            rate_3.src = 'static/imgs/rate.png'
+            rate_4.src = 'static/imgs/rate.png'
+            rate_5.src = 'static/imgs/rate_half.png'
+        } else if (rate >= 4.7) {
+            rate_1.src = 'static/imgs/rate.png'
+            rate_2.src = 'static/imgs/rate.png'
+            rate_3.src = 'static/imgs/rate.png'
+            rate_4.src = 'static/imgs/rate.png'
+            rate_5.src = 'static/imgs/rate.png'
+        } 
+        //
+        
+        // 영화 틀기
+        fetch(`https://api.themoviedb.org/3/movie/${selectedMovie.id}/videos`, options)
+                .then(res => res.json())
+                .then(res => {
+                    const index = res.results.length;
+                    res.results.forEach(element => {
+                        YOUTUBE_TEMP_KEY.push(element.key)
+                    });
+                    // 유튜브 영상 키
+                    // const TRAILER_KEY = res.results[index-1].key
+                    const TRAILER_KEY = YOUTUBE_TEMP_KEY[index-1]
+                    playYouTubeVideo(TRAILER_KEY);
+                }); 
+}
+
+
+
+
+
+
+// TV 였을 때 함수
+function tvPlayOnSearchResult(id) {
+    document.querySelector('#MOTHER').style.opacity = '0.2'
+    const MODAL = document.getElementById('movie-info-container');
+    MODAL.style.opacity = 1;
+    MODAL.style.zIndex = 10;
+    const target_id = id
+    let MATCHED_MOVIE_ID;
+    let selectedMovie;
+    for (let i = 0; i < POPULAR_TVS.length; i++) {
+        const movie = POPULAR_TVS[i]
+        if (target_id == movie.id) {
+            MATCHED_MOVIE_ID = movie.id
+            selectedMovie = movie
+            break;
+        }}
+    document.getElementById('modal-movie-title').innerText = selectedMovie.title
+    document.getElementById('modal-movie-year').innerText = selectedMovie.year
+    document.getElementById('modal-movie-genre').innerText = `${selectedMovie.genre[0]}`
+    document.getElementById('modal-movie-info').innerText = selectedMovie.overview
+    const progressBar = document.querySelector('.progress')
+    document.getElementById('release-date-h3').innerText = 'First Air Date'
+    document.getElementById('release-date').innerText = selectedMovie['first_air_date']
+    document.getElementById('modal-genres').innerText = `${selectedMovie.genre[0]}, ${selectedMovie.genre[1]}`
+    if (!document.getElementById('modal-genres').innerText) {
+        document.getElementById('modal-genres').innerText = ''
+    }
+
+
+    if (selectedMovie.popularity < 1000) {
+        progressBar.style.width = '15%'
+    } else if (selectedMovie.popularity < 1300) {
+        progressBar.style.width = '25%'
+    } else if (selectedMovie.popularity < 1500) {
+        progressBar.style.width = '35%'
+    } else if (selectedMovie.popularity < 1700) {
+        progressBar.style.width = '45%'
+    } else if (selectedMovie.popularity < 1900) {
+        progressBar.style.width = '55%'
+    } else if (selectedMovie.popularity < 2300) {
+        progressBar.style.width = '65%'
+    } else if (selectedMovie.popularity < 2800) {
+        progressBar.style.width = '75%'
+    } else if (selectedMovie.popularity < 3500) {
+        progressBar.style.width = '80%'
+    } else if (selectedMovie.popularity < 4200) {
+        progressBar.style.width = '90%'
+    } else if (selectedMovie.popularity < 5000) {
+        progressBar.style.width = '95%'
+    } else if (selectedMovie.popularity >= 5000) {
+        progressBar.style.width = '100%'
+    }
+
+    // rate
+    const rate = selectedMovie.vote_average/2
+    const rate_1 = document.getElementById('modal-rate-1')
+    const rate_2 = document.getElementById('modal-rate-2')
+    const rate_3 = document.getElementById('modal-rate-3')
+    const rate_4 = document.getElementById('modal-rate-4')
+    const rate_5 = document.getElementById('modal-rate-5')
+    
+    if (rate < 0.3) {
+        rate_1.src = 'static/imgs/null.png'
+        rate_2.src = 'static/imgs/null.png'
+        rate_3.src = 'static/imgs/null.png'
+        rate_4.src = 'static/imgs/null.png'
+        rate_5.src = 'static/imgs/null.png'
+    } else if (rate < 0.7) {
+        rate_1.src = 'static/imgs/rate_half.png'
+        rate_2.src = 'static/imgs/null.png'
+        rate_3.src = 'static/imgs/null.png'
+        rate_4.src = 'static/imgs/null.png'
+        rate_5.src = 'static/imgs/null.png'
+    } else if (rate < 1.2) {
+        rate_1.src = 'static/imgs/rate.png'
+        rate_2.src = 'static/imgs/null.png'
+        rate_3.src = 'static/imgs/null.png'
+        rate_4.src = 'static/imgs/null.png'
+        rate_5.src = 'static/imgs/null.png'
+    } else if (rate < 1.7) {
+        rate_1.src = 'static/imgs/rate.png'
+        rate_2.src = 'static/imgs/rate_half.png'
+        rate_3.src = 'static/imgs/null.png'
+        rate_4.src = 'static/imgs/null.png'
+        rate_5.src = 'static/imgs/null.png'
+    } else if (rate < 2.2) {
+        rate_1.src = 'static/imgs/rate.png'
+        rate_2.src = 'static/imgs/rate.png'
+        rate_3.src = 'static/imgs/null.png'
+        rate_4.src = 'static/imgs/null.png'
+        rate_5.src = 'static/imgs/null.png'
+    } else if (rate < 2.7) {
+        rate_1.src = 'static/imgs/rate.png'
+        rate_2.src = 'static/imgs/rate.png'
+        rate_3.src = 'static/imgs/rate_half.png'
+        rate_4.src = 'static/imgs/null.png'
+        rate_5.src = 'static/imgs/null.png'
+    } else if (rate < 3.2) {
+        rate_1.src = 'static/imgs/rate.png'
+        rate_2.src = 'static/imgs/rate.png'
+        rate_3.src = 'static/imgs/rate.png'
+        rate_4.src = 'static/imgs/null.png'
+        rate_5.src = 'static/imgs/null.png'
+    } else if (rate < 3.7) {
+        rate_1.src = 'static/imgs/rate.png'
+        rate_2.src = 'static/imgs/rate.png'
+        rate_3.src = 'static/imgs/rate.png'
+        rate_4.src = 'static/imgs/rate_half.png'
+        rate_5.src = 'static/imgs/null.png'
+    } else if (rate < 4.2) {
+        rate_1.src = 'static/imgs/rate.png'
+        rate_2.src = 'static/imgs/rate.png'
+        rate_3.src = 'static/imgs/rate.png'
+        rate_4.src = 'static/imgs/rate.png'
+        rate_5.src = 'static/imgs/null.png'
+    } else if (rate < 4.7) {
+        rate_1.src = 'static/imgs/rate.png'
+        rate_2.src = 'static/imgs/rate.png'
+        rate_3.src = 'static/imgs/rate.png'
+        rate_4.src = 'static/imgs/rate.png'
+        rate_5.src = 'static/imgs/rate_half.png'
+    } else if (rate >= 4.7) {
+        rate_1.src = 'static/imgs/rate.png'
+        rate_2.src = 'static/imgs/rate.png'
+        rate_3.src = 'static/imgs/rate.png'
+        rate_4.src = 'static/imgs/rate.png'
+        rate_5.src = 'static/imgs/rate.png'
+    } 
+    //
+    // 영화 틀기
+    fetch(`https://api.themoviedb.org/3/tv/${selectedMovie.id}/videos`, options)
+            .then(res => res.json())
+            .then(res => {
+                const index = res.results.length;
+                res.results.forEach(element => {
+                    YOUTUBE_TEMP_KEY.push(element.key)
+                });
+                // 유튜브 영상 키
+                // const TRAILER_KEY = res.results[index-1].key
+                const TRAILER_KEY = YOUTUBE_TEMP_KEY[index-1]
+                playYouTubeVideo(TRAILER_KEY);
+            }); 
+}
+
+
+
+
+
+

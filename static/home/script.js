@@ -4,6 +4,16 @@
  */
 let i = 0;
 
+// NO CONTROL
+// 마우스 드래그 막기
+document.getElementById('GRAND-MOTHER').addEventListener('mousedown', e => {
+    e.preventDefault()
+})
+// 마우스 오른쪽 클릭 막기
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+});
+  
 // 처음 로드 될 때 사이드바 a태그들 감추기, main width 100%로 하기
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('main').style.width = 'calc(100% + 170px)'

@@ -578,5 +578,80 @@ document.getElementById('modal-close').addEventListener('click', (e) => {
     setTimeout(() => {
         document.getElementById('player').style.opacity = '1'
     }, 300);
-    
 })
+
+// SEARCH RESULT LIST CLICK => MAIN PLAYER STOPS
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('search-result-inner-container')) {
+        player.pauseVideo()
+        document.getElementById('player').style.opacity = '0'
+    }})
+
+
+
+
+
+// 더 많은 데이터 가져오기
+export async function fetchMovies(page) {
+    const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`;
+    
+    return await fetch(url, options)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('MOVIE FETCH FAILURE');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const movies = data.results;
+        console.log(movies);
+        
+        movies.forEach(movie => {
+          // Movie 정보 처리
+          const movie_id = movie.id;
+          const movie_title = movie.original_title;
+          const movie_poster = `${TMDB_IMAGE_BASE_URL}/w500/${movie.poster_path}`;
+          const movie_overview = movie.overview;
+          const movie_genre = movie.genre_ids; // Array of genre codes
+          const movie_genres = [];
+          
+          movie_genre.forEach(genreCode => {
+            movie_genres.push(TMDB_MOVIE_GENRES[genreCode]);
+          });
+          
+          const movie_year = movie.release_date.slice(0, 4);
+          
+          // Global 변수에 추가
+          POPULAR_MOVIES.push({
+            'id': movie_id,
+            'title': movie_title,
+            'year': movie_year,
+            'poster': movie_poster,
+            'overview': movie_overview,
+            'genre': movie_genres,
+            'rate': movie.vote_average,
+            'popularity': movie.popularity,
+            'release date': movie.release_date
+          });
+        });
+      })
+      .catch(err => {
+        console.log('movie fetch error caught');
+        console.error(err);
+      });
+  }
+  
+  // 여러 페이지에 대해 fetch 요청 수행
+
+// 데이터 더 받기
+const pages = [];
+setTimeout(() => {
+    for (let i = 3; i < 50; i++) {
+        pages.push(i)
+    }
+    pages.forEach(page => {
+        fetchMovies(page)
+    })
+}, 2000);
+
+  

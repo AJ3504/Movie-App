@@ -163,10 +163,8 @@ img {
 /* 메인 세팅 시작 */
 main {
     width: 100%;
-    /* background: rgb(142,204,192);
-background: linear-gradient(45deg, rgba(142,204,192,1) 0%, rgba(80,113,123,1) 50%, rgba(58,64,66,1) 100%); */
-background: rgb(33,33,33);
-background: linear-gradient(45deg, rgba(33,33,33,1) 0%, rgba(58,64,66,1) 35%, rgba(80,113,112,1) 94%);
+    background: rgb(33,33,33);
+    background: linear-gradient(45deg, rgba(33,33,33,1) 0%, rgba(58,64,66,1) 35%, rgba(80,113,112,1) 94%);
     padding-left: 80px;
     transition: all 0.4s;
 }
@@ -851,20 +849,24 @@ background-color: #6b9cfe;
 
 
 /* SEARCH RELATED CSS */
+/* #search-section {
+    
+} */
 #search-container {
     position: fixed;
-    top: 50%; left: 53%;
+    top: 40%; left: 53%;
     transform: translate(-50%, -50%);
-    width: 60%; height: 50px;
+    width: 60%; height: 55px; max-width: 600px; min-width: 300px;
     background: #c0c0c0dd;
     display: flex;
     gap: 15px;
     align-items: center;
     border-radius: 10px;
     transition: ease-in-out 0.3s;
-    /* opacity: 1;
-    z-index: 11; */
+    opacity: 0;
+    z-index: 0;
 }
+
 #search-icon {
     width: 32px; height: 32px;
     padding-left: 10px;
@@ -905,4 +907,75 @@ background-color: #6b9cfe;
 #close-search:active {
     transition: ease-in-out 0.2s;
     transform: scale(0.7);
+}
+
+#search-section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* SEARCH RESULT */
+#search-result {
+    width: 60%; max-width: 600px;
+    position: fixed;
+    top: calc(40% + 155px); left: 53%;
+    transform: translate(-50%, -50%);
+    background: #c0c0c0dd;
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 0;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    overflow: auto;
+}
+.search-result-inner-container {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    box-shadow: 0 0 1px 0 rgb(92, 92, 92);
+    cursor: pointer;
+}
+.search-result-inner-container * {
+    pointer-events: none;
+    cursor: pointer;
+}
+
+.search-result-inner-container-left-div {
+    padding-left: 15px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.search-result-poster{
+    width: 40px;
+    height: 90%;
+}
+.search-result-inner-container-right-div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+.search-result-movie-title {
+    width: 75%;
+    padding-left: 15px;
+    color: #222;
+    line-height: 1.1;
+}
+.search-result-other-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-right: 10px;
+}
+.search-result-movie-genre, .search-result-movie-year {
+    color: #222;
+    text-align: right;
+    width: 150px;
+}
+
+.search-result-movie-genre {
+    font-size: 0.9rem;
 }

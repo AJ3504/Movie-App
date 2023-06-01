@@ -5,6 +5,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="WATCH">
+    <meta property="og:description" content="Plase feel free to have a look around my first personal assignment from bootcamp. Had to use vanila JavaScript only.">
+    <meta property="og:image" content="https://ibb.co/VDXKqMb">
+    <meta property="og:url" content="https://kimhwanhoon.github.io/Movie-App/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="WATCH">
+    <meta property="og:locale" content="en-US">
+
     <title>Movie App</title>
 </head>
 <body>
@@ -16,188 +24,177 @@
     <script src="static/home/tv_list.mjs" type="module" defer></script>
     <script src="static/home/people_list.mjs" type="module" defer></script>
     <script src="static/home/modal.mjs" type="module" defer></script>
-    <script src="static/global/search.mjs" type="module" defer></script>
     <script src="https://www.youtube.com/iframe_api" ></script>
-    <div id="MOTHER">
-        <section id="search-section">
-            <div id="search-container">
-                <img src="static/imgs/search-black.png" alt="search icon" id="search-icon">
-                <input type="text" name="search" id="search-area" placeholder="Search" autofocus autocomplete="off">
-                <img id="close-search" src="static/imgs/close.png" alt="close button for search bar">
-            </div>
-        </section>
-        <div id="side-bar">
-            <div id="logo-container">
-                <img id="logo" src="static/imgs/logo.png" alt="Logo" />
-                <h1 id="logo-h1">WATCH</h1>
-            </div>
-            <div id="side-bar-2nd-part">
-                <div id="side-bar-toggle"></div>
-                <div id="side-bar-menu-container-1" class="side-bar-menu-container">
-                    <div class="side-bar-menu">
-                        <img id="home" src="static/imgs/home.png" alt="Home" /><a href="">Home</a>
-                    </div>
-                    <div class="side-bar-menu">
-                        <img id="movie" src="static/imgs/movie.png" alt="movie" /><a href="movie.html">Movie</a>
-                    </div>
-                    <div class="side-bar-menu">
-                        <img id="favorite" src="static/imgs/favorite.png" alt="Favorites" /><a href="">Favorites</a>
-                    </div>
-                    <div id="trending" class="side-bar-menu">
-                        <img src="static/imgs/trending.png" alt="Trending" /><a href="">Trending</a>
-                    </div>
-                    <div class="side-bar-menu">
-                        <img id="calendar" src="static/imgs/calendar.png" alt="Coming soon" /><a href="">Coming soon</a>
-                    </div>
+    <div id="GRAND-MOTHER">
+        <div id="MOTHER">
+            <section id="search-section">
+                <div id="search-container">
+                    <img src="static/imgs/search-black.png" alt="search icon" id="search-icon">
+                    <input type="text" name="search" id="search-area" placeholder="Search" autofocus autocomplete="off">
+                    <img id="close-search" src="static/imgs/close.png" alt="close button for search bar">
                 </div>
-                <div id="side-bar-menu-container-2" class="side-bar-menu-container">
-                    <div class="side-bar-menu">
-                        <img id="community" src="static/imgs/community.png" alt="Community" /><a href="">Community</a>
-                    </div>
-                    <div class="side-bar-menu">
-                        <img id="social" src="static/imgs/social.png" alt="Social" /><a href="">Social</a>
-                    </div>
+                <div id="search-result"></div>
+            </section>
+            <div id="side-bar">
+                <div id="logo-container">
+                    <img id="logo" src="static/imgs/logo.png" alt="Logo" />
+                    <h1 id="logo-h1">WATCH</h1>
                 </div>
-                <div id="side-bar-menu-container-3" class="side-bar-menu-container">
-                    <div class="side-bar-menu">
-                        <img id="settings" src="static/imgs/settings.png" alt="Settings" /><a href="">Settings</a>
-                    </div>
-                    <div class="side-bar-menu">
-                        <img id="logout" src="static/imgs/logout.png" alt="Log out" /><a href="">Log out</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <main>
-            
-            <section id="section1">
-                <header>
-                    <div id="header-div1">
-                        <ul>
-                            <li><a class="header_links" href="">Movies</a></li>
-                            <li><a class="header_links" href="">Series</a></li>
-                            <li><a class="header_links" href="">Documentaries</a></li>
-                        </ul>
-                    </div>
-                    <div id="header-div2">
-                        <img id="search-home" src="static/imgs/search.png" alt="" />
-                        <!-- search icon -->
-                        <img id="notification" src="static/imgs/notification.png" alt="notification" />
-                        <!-- notification icon -->
-                        <div id="nav-profile-container">
-                            <img id="profile" src="static/imgs/profile.png" alt="Profile picture" />
-                            <!-- profile picture -->
-                            <h2 id="profile-name">Kim Hwanhoon</h2>
+                <div id="side-bar-2nd-part">
+                    <div id="side-bar-toggle"></div>
+                    <div id="side-bar-menu-container-1" class="side-bar-menu-container">
+                        <div class="side-bar-menu">
+                            <img id="home" src="static/imgs/home.png" alt="Home" /><a href="">Home</a>
+                        </div>
+                        <div class="side-bar-menu">
+                            <img id="movie" src="static/imgs/movie.png" alt="movie" /><a>Movie</a>
+                        </div>
+                        <div class="side-bar-menu">
+                            <img id="favorite" src="static/imgs/favorite.png" alt="Favorites" /><a>Favorites</a>
+                        </div>
+                        <div id="trending" class="side-bar-menu">
+                            <img src="static/imgs/trending.png" alt="Trending" /><a>Trending</a>
+                        </div>
+                        <div class="side-bar-menu">
+                            <img id="calendar" src="static/imgs/calendar.png" alt="Coming soon" /><a >Coming soon</a>
                         </div>
                     </div>
-                </header>
-                <div id="section1-div">
-                    <div class="arrow-main prev"></div>
-                    <div class="arrow-main next"></div>
-                    <!-- section1 메세지 참고 -->
-                    <h2 id="section1-movie-title"></h2>
-                    <div id="main_video_info" class="movie-basic-info">
-                        <p class="movie-basic-info-year"></p>
-                        <p class="movie-basic-info-genre"></p>
+                    <div id="side-bar-menu-container-2" class="side-bar-menu-container">
+                        <div class="side-bar-menu">
+                            <img id="community" src="static/imgs/community.png" alt="Community" /><a >Community</a>
+                        </div>
+                        <div class="side-bar-menu">
+                            <img id="social" src="static/imgs/social.png" alt="Social" /><a >Social</a>
+                        </div>
                     </div>
-                    <div id="section1-div-comp-3">
-                        <button class="Button-watch" id="Button-watch">Watch now</button>
-                        <button id="Button-main-favorite" class="Button-add-to-favorite"></button>
-                        <div id="main-mute"></div>
+                    <div id="side-bar-menu-container-3" class="side-bar-menu-container">
+                        <div class="side-bar-menu">
+                            <img id="settings" src="static/imgs/settings.png" alt="Settings" /><a >Settings</a>
+                        </div>
+                        <div class="side-bar-menu">
+                            <img id="logout" src="static/imgs/logout.png" alt="Log out" /><a >Log out</a>
+                        </div>
                     </div>
-                </div>
-            </section>
-            <!--            -->
-            <!--  SECTION 2 -->
-            <!--            -->
-            <!-- <div  class="custom-shape-divider-top-1685348814">
-                <svg id="path" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                    <path  d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-                </svg>
-            </div> -->
-            <div class="custom-shape-divider-top-1685448245">
-                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-                </svg>
-            </div>
-            <section id="section2">
-                <!-- div1 -->
-                <div id="section2-div1">
-                    <h2 class="sub-title div-1">Trending Films</h2>
-                    <div id="trending-cards-container" class="movie-list"></div>
-                    <div class="arrow div1 prev"></div>
-                    <div class="arrow div1 next"></div>
-                </div>
-                <!-- div2 -->
-                <div id="section2-div2" id="section2-div2">
-                    <h2 class="sub-title div-2">Trending TV Series</h2>
-                    <div id="trending-tv-cards-container" class="movie-list"></div>
-                    <div class="arrow div2 prev"></div>
-                    <div class="arrow div2 next"></div>
-                </div>
-                <!-- div3 -->
-                <div id="section2-div3" id="section2-div3">
-                    <h2 class="sub-title div-3">Trending People</h2>
-                    <div id="trending-people-cards-container" class="movie-list"></div>
-                    <div class="arrow div3 prev"></div>
-                    <div class="arrow div3 next"></div>
-                </div>
                 </div>
             </div>
-            </section>
-        </main>
+            <main>
+                <section id="section1">
+                    <header>
+                        <div id="header-div1">
+                            <ul>
+                                <li><a class="header_links" >Movies</a></li>
+                                <li><a class="header_links" >Series</a></li>
+                                <li><a class="header_links" >Documentaries</a></li>
+                            </ul>
+                        </div>
+                        <div id="header-div2">
+                            <img id="search-home" src="static/imgs/search.png" alt="" />
+                            <!-- search icon -->
+                            <img id="notification" src="static/imgs/notification.png" alt="notification" />
+                            <!-- notification icon -->
+                            <div id="nav-profile-container">
+                                <img id="profile" src="static/imgs/profile.png" alt="Profile picture" />
+                                <!-- profile picture -->
+                                <h2 id="profile-name">Kim Hwanhoon</h2>
+                            </div>
+                        </div>
+                    </header>
+                    <div id="section1-div">
+                        <div class="arrow-main prev"></div>
+                        <div class="arrow-main next"></div>
+                        <!-- section1 메세지 참고 -->
+                        <h2 id="section1-movie-title"></h2>
+                        <div id="main_video_info" class="movie-basic-info">
+                            <p class="movie-basic-info-year"></p>
+                            <p class="movie-basic-info-genre"></p>
+                        </div>
+                        <div id="section1-div-comp-3">
+                            <button class="Button-watch" id="Button-watch">Watch now</button>
+                            <button id="Button-main-favorite" class="Button-add-to-favorite"></button>
+                            <div id="main-mute"></div>
+                        </div>
+                    </div>
+                </section>
+                <!--            -->
+                <!--  SECTION 2 -->
+                <!--            -->
+                <div class="custom-shape-divider-top-1685448245">
+                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                    </svg>
+                </div>
+                <section id="section2">
+                    <div id="section2-div1">
+                        <h2 id="trending-films" class="sub-title div-1">Trending Films</h2>
+                        <div id="trending-cards-container" class="movie-list"></div>
+                        <div class="arrow div1 prev"></div>
+                        <div class="arrow div1 next"></div>
+                    </div>
+                    <div id="section2-div2" id="section2-div2">
+                        <h2 class="sub-title div-2">Trending TV Series</h2>
+                        <div id="trending-tv-cards-container" class="movie-list"></div>
+                        <div class="arrow div2 prev"></div>
+                        <div class="arrow div2 next"></div>
+                    </div>
+                    <div id="section2-div3" id="section2-div3">
+                        <h2 class="sub-title div-3">Trending People</h2>
+                        <div id="trending-people-cards-container" class="movie-list"></div>
+                        <div class="arrow div3 prev"></div>
+                        <div class="arrow div3 next"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <section id="movie-info-container">
+            <div id="modal-player-div">
+                <div id="modal-close"></div>
+                <div class="arrow-modal prev"></div>
+                <div class="arrow-modal next"></div>
+                <div id="modal-div-comp-3">
+                    <button class="Button-watch" id="Button-modal-watch">Watch now</button>
+                    <button id="modal-like" class="Button-add-to-favorite"></button>
+                    <div id="modal-mute"></div>
+                </div>
+                <div id="modal_video_info" class="movie-basic-info">
+                    <p id="modal-movie-year" class="movie-basic-info-year"></p>
+                    <p id="modal-movie-genre" class="movie-basic-info-genre"></p>
+                </div>
+                <h2 id="modal-movie-title"></h2>
+            </div>
+            <div id="movie-info-text-container">
+                <div id="modal-text-left">
+                    <h2 id="modal-overview-title">Overview:</h2>
+                    <p id="modal-movie-info"></p>
+                </div>
+                <div id="modal-text-right">
+                    <div id="modal-text-right-div1">
+                        <h1>Rate:</h1>
+                        <div id="modal_rate_container">
+                            <img id="modal-rate-1" class="modal-rate" >
+                            <img id="modal-rate-2" class="modal-rate" >
+                            <img id="modal-rate-3" class="modal-rate" >
+                            <img id="modal-rate-4" class="modal-rate" >
+                            <img id="modal-rate-5" class="modal-rate" >
+                        </div>
+                    </div>
+                    <div id="progress-bar-container">
+                        <h3>Popularity:</h3>
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                    </div>
+                    <div id="release-date-container">
+                        <h3 id="release-date-h3">Release date:</h3>
+                        <p id="release-date"></p>
+                    </div>
+                    <div id="genres-container">
+                        <h3>Genres:</h3>
+                        <p id="modal-genres"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-    <section id="movie-info-container">
-        <div id="modal-player-div">
-            <div id="modal-close"></div>
-            <div class="arrow-modal prev"></div>
-            <div class="arrow-modal next"></div>
-            <!-- section1 메세지 참고 -->
-            <div id="modal-div-comp-3">
-                <button class="Button-watch" id="Button-modal-watch">Watch now</button>
-                <button id="modal-like" class="Button-add-to-favorite"></button>
-                <div id="modal-mute"></div>
-            </div>
-            <div id="modal_video_info" class="movie-basic-info">
-                <p id="modal-movie-year" class="movie-basic-info-year">2023</p>
-                <p id="modal-movie-genre" class="movie-basic-info-genre">Drama</p>
-            </div>
-            <h2 id="modal-movie-title">Coding: First Assignment</h2>
-        </div>
-        <div id="movie-info-text-container">
-            <div id="modal-text-left">
-                <h2 id="modal-overview-title">Overview:</h2>
-                <p id="modal-movie-info">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta nobis amet eius ratione delectus aliquam iure cupiditate quisquam. Ipsam, facere numquam nisi sunt illum quo velit repudiandae vel quia ab.</p>
-            </div>
-            <div id="modal-text-right">
-                <div id="modal-text-right-div1">
-                    <h1>Rate:</h1>
-                    <div id="modal_rate_container">
-                        <img id="modal-rate-1" class="modal-rate" >
-                        <img id="modal-rate-2" class="modal-rate" >
-                        <img id="modal-rate-3" class="modal-rate" >
-                        <img id="modal-rate-4" class="modal-rate" >
-                        <img id="modal-rate-5" class="modal-rate" >
-                    </div>
-                    
-                </div>
-                <div id="progress-bar-container">
-                    <h3>Popularity:</h3>
-                    <div class="progress-bar">
-                        <div class="progress"></div>
-                    </div>
-                </div>
-                <div id="release-date-container">
-                    <h3 id="release-date-h3">Release date:</h3>
-                    <p id="release-date"></p>
-                </div>
-                <div id="genres-container">
-                    <h3>Genres:</h3>
-                    <p id="modal-genres"></p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
+
 </body>
 </html>
