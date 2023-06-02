@@ -282,7 +282,7 @@ function playYouTubeVideo(videoKey) {
             fs: 1,
             cc_load_policy: 0,
             disablekb: 1,
-            rel: 0
+            rel: 0,
         },
         events: {
             onReady: onPlayerReady,
