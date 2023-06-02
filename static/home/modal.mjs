@@ -492,10 +492,13 @@ document.addEventListener('keydown', function(event) {
         event.preventDefault(); // 이 부분은 선택적입니다. 기존에 존재하는 다른 기능과 충돌이 생길 수 있기 때문입니다.
         // 원하는 동작을 수행합니다.
         if (j) {
+            deleteSearchResult(); // 검색 결과를 초기화
+            document.getElementById('search-area').value = ''
             document.querySelector('#search-container').style.opacity = 0
             document.querySelector('#search-container').style.zIndex = -1
             j = 0
         } else if (!j) {
+            
             searchOn();
             searchInput.focus();
             document.querySelector('#search-container').style.opacity = 1

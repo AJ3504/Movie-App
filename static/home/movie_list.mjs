@@ -617,5 +617,3 @@ setTimeout(() => {
         fetchMovies(page)
     })
 }, 5000);
-
-  

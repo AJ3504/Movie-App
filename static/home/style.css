@@ -7,10 +7,6 @@
     font-family: Circular-medium;
     src: url(../fonts/CircularSpotifyTxT-Med.ttf);
 }
-@font-face {
-    font-family: Circular-bold;
-    src: url(../fonts/FontsFree-Net-Circular-Std-Bold.ttf);
-}
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 h1, h2, h3, p, a {
     font-family: Circular-light, -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
